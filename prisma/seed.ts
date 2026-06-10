@@ -8,21 +8,18 @@ const prisma = new PrismaClient();
 // The path to the downloaded CSV files
 const CSV_DIR = path.resolve('/Users/prince_agrawal/Downloads/1mg web scraping/All Medicines');
 
-// We limit the number of rows inserted across all files to avoid overloading the free database
-const MAX_MEDICINES_TO_SEED = 200; 
+// We limit the number of rows inserted PER FILE to avoid overloading the free database
+const MAX_MEDICINES_PER_FILE = 500; 
 
 async function seed() {
   console.log('🌱 Starting Database Seeding from 1mg CSV files...');
 
   try {
     const files = fs.readdirSync(CSV_DIR).filter(f => f.endsWith('.csv'));
-    let insertedCount = 0;
+    let totalInsertedCount = 0;
 
     for (const file of files) {
-      if (insertedCount >= MAX_MEDICINES_TO_SEED) {
-        break;
-      }
-
+      let fileInsertedCount = 0;
       console.log(`Processing file: ${file}`);
       const filePath = path.join(CSV_DIR, file);
 
@@ -30,7 +27,7 @@ async function seed() {
         const stream = fs.createReadStream(filePath).pipe(csv());
         
         stream.on('data', async (row) => {
-          if (insertedCount >= MAX_MEDICINES_TO_SEED) {
+          if (fileInsertedCount >= MAX_MEDICINES_PER_FILE) {
             stream.destroy();
             return;
           }
@@ -72,9 +69,10 @@ async function seed() {
               }
             });
             
-            insertedCount++;
-            if (insertedCount % 50 === 0) {
-              console.log(`...Inserted ${insertedCount} medicines`);
+            fileInsertedCount++;
+            totalInsertedCount++;
+            if (fileInsertedCount % 100 === 0) {
+              console.log(`...Inserted ${fileInsertedCount} medicines from ${file}`);
             }
             
             stream.resume();
@@ -90,7 +88,7 @@ async function seed() {
       });
     }
 
-    console.log(`✅ Seeding Complete! Successfully inserted ${insertedCount} real medicines.`);
+    console.log(`✅ Seeding Complete! Successfully inserted ${totalInsertedCount} real medicines.`);
   } catch (error) {
     console.error("❌ Seeding failed:", error);
   } finally {

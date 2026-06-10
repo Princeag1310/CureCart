@@ -32,12 +32,25 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    // 2. Save the prescription to Image Storage (Cloudinary)
-    // NOTE: For the resume project, you can create a free Cloudinary account
-    // and replace this with: 
-    // const uploadResponse = await cloudinary.uploader.upload(`data:${mimeType};base64,${base64Image}`);
-    // const finalImageUrl = uploadResponse.secure_url;
-    const finalImageUrl = "https://res.cloudinary.com/demo/image/upload/sample.jpg"; // Placeholder
+    // 2. Save the prescription to Image Storage (ImageKit.io)
+    // NOTE: You will need to create a free ImageKit account and set your API keys in .env
+    /*
+    import ImageKit from "imagekit";
+    
+    const imagekit = new ImageKit({
+      publicKey: process.env.IMAGEKIT_PUBLIC_KEY!,
+      privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
+      urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT!
+    });
+
+    const uploadResponse = await imagekit.upload({
+      file: base64Image, // base64 string
+      fileName: `prescription_${Date.now()}.jpg`,
+      folder: "/curecart_prescriptions"
+    });
+    const finalImageUrl = uploadResponse.url;
+    */
+    const finalImageUrl = "https://ik.imagekit.io/demo/img/sample.jpg"; // Placeholder for now
 
     // 3. Save the prescription record to the database
     const prescription = await prisma.prescription.create({
