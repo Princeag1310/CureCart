@@ -17,6 +17,25 @@ export class OrderService {
       throw new Error("Cart is empty");
     }
 
+    // 1. Strict Legal Enforcement: Check if prescription is required
+    const requiresPrescription = cart.items.some(item => item.medicine.requiresPrescription);
+    let approvedPrescription = null;
+
+    if (requiresPrescription) {
+      // Find an approved prescription that hasn't been used for an order yet
+      approvedPrescription = await prisma.prescription.findFirst({
+        where: {
+          userId,
+          status: 'APPROVED',
+          orderId: null
+        }
+      });
+
+      if (!approvedPrescription) {
+        throw new Error("STRICT LEGAL CHECK FAILED: A valid, Admin-Approved prescription is required to checkout these medicines.");
+      }
+    }
+
     // Begin interactive transaction
     return await prisma.$transaction(async (tx) => {
       let totalAmount = 0;
@@ -73,6 +92,14 @@ export class OrderService {
       await tx.cartItem.deleteMany({
         where: { cartId: cart.id },
       });
+
+      // 6. Link Prescription to Order if applicable
+      if (approvedPrescription) {
+        await tx.prescription.update({
+          where: { id: approvedPrescription.id },
+          data: { orderId: order.id }
+        });
+      }
 
       // Background Webhook: Sync to MailerPro marketing microservice
       // We do this asynchronously so it doesn't block the checkout response

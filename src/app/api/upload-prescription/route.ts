@@ -32,13 +32,18 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    // 2. Save the prescription record to the database
-    // In production, we would upload the file to S3 and save the URL. 
-    // Here we save a placeholder or the base64 string (though base64 in DB is bad for scale)
+    // 2. Save the prescription to Image Storage (Cloudinary)
+    // NOTE: For the resume project, you can create a free Cloudinary account
+    // and replace this with: 
+    // const uploadResponse = await cloudinary.uploader.upload(`data:${mimeType};base64,${base64Image}`);
+    // const finalImageUrl = uploadResponse.secure_url;
+    const finalImageUrl = "https://res.cloudinary.com/demo/image/upload/sample.jpg"; // Placeholder
+
+    // 3. Save the prescription record to the database
     const prescription = await prisma.prescription.create({
       data: {
         userId: session.user.id,
-        imageUrl: "s3_placeholder_url", // Placeholder for actual S3 URL
+        imageUrl: finalImageUrl,
         status: "PENDING_REVIEW", // Requires manual admin approval now
         // we could also save aiAnalysis.doctorName and aiAnalysis.extractedMedicines in a JSON field if we added it to Prisma schema
       }
