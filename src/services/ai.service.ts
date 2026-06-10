@@ -54,4 +54,49 @@ export class AIService {
       return null;
     }
   }
+
+  /**
+   * Uses Gemini Vision AI to verify if an uploaded image is a valid prescription.
+   */
+  static async analyzePrescriptionImage(base64Image: string, mimeType: string) {
+    if (!apiKey) {
+      console.warn("GEMINI_API_KEY is not set. Mocking verification for dev.");
+      return { isValid: true, extractedMedicines: ["Mock Medicine"], doctorName: "Dr. Mock" };
+    }
+
+    try {
+      const prompt = `
+        You are an advanced medical document verification AI. Analyze this image.
+        Is it a valid medical prescription written by a doctor? 
+        If it is, extract the doctor's name and an array of the prescribed medicines.
+        Return ONLY a JSON object exactly like this:
+        {
+          "isValid": boolean,
+          "doctorName": "string or null",
+          "extractedMedicines": ["string array"]
+        }
+        Do not include markdown or backticks. Return raw JSON only.
+      `;
+
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [
+          prompt,
+          {
+            inlineData: {
+              data: base64Image,
+              mimeType: mimeType
+            }
+          }
+        ]
+      });
+
+      const responseText = response.text?.trim() || "";
+      const jsonStr = responseText.replace(/```json/g, '').replace(/```/g, '');
+      return JSON.parse(jsonStr);
+    } catch (error) {
+      console.error("AI Prescription Verification failed:", error);
+      return { isValid: false, error: "Verification failed. Please try again or upload a clearer image." };
+    }
+  }
 }

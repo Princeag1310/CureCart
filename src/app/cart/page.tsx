@@ -4,6 +4,7 @@ import { CartService } from "@/services/cart.service";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { CheckoutButton } from "./CheckoutButton";
+import { PrescriptionUpload } from "./PrescriptionUpload";
 
 export const dynamic = 'force-dynamic';
 
@@ -71,7 +72,12 @@ export default async function CartPage() {
                 <p>₹{subtotal.toFixed(2)}</p>
               </div>
               <p className="text-sm text-gray-500 mb-6">Shipping and taxes calculated at checkout.</p>
-              <CheckoutButton />
+              
+              <PrescriptionUpload />
+              
+              <div className="mt-8">
+                <CheckoutButton />
+              </div>
             </div>
           </div>
         )}
