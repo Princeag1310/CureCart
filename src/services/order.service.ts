@@ -1,5 +1,6 @@
 import { prisma } from '../config/db';
 import { CartService } from './cart.service';
+import { MarketingService } from './marketing.service';
 
 export class OrderService {
   /**
@@ -72,6 +73,14 @@ export class OrderService {
       await tx.cartItem.deleteMany({
         where: { cartId: cart.id },
       });
+
+      // Background Webhook: Sync to MailerPro marketing microservice
+      // We do this asynchronously so it doesn't block the checkout response
+      prisma.user.findUnique({ where: { id: userId } }).then(user => {
+        if (user && user.email) {
+          MarketingService.syncUserToMailerPro(user.email, user.name || "Customer", ["Buyer", "CureCart"]);
+        }
+      }).catch(err => console.error("Failed to sync to MailerPro", err));
 
       // Transaction commits successfully here.
       return order;
