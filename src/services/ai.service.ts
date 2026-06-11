@@ -127,13 +127,20 @@ export class AIService {
         contents: prompt,
         config: {
           temperature: 0.1,
+          responseMimeType: "application/json"
         }
       });
 
       const responseText = response.text?.trim() || "";
-      const jsonStr = responseText.replace(/```json/g, '').replace(/```/g, '');
       
-      return JSON.parse(jsonStr);
+      // Extract just the JSON object using regex to ignore any conversational filler
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        console.error("Failed to parse JSON from AI response:", responseText);
+        return null;
+      }
+      
+      return JSON.parse(jsonMatch[0]);
     } catch (error) {
       console.error("AI Medical Details Generation failed:", error);
       return null;
