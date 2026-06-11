@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { AddToCartForm } from '@/components/medicine/AddToCartForm';
 
 export interface MedicineProps {
   id: string;
@@ -14,6 +14,9 @@ export interface MedicineProps {
 }
 
 export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
+  const packagingMatch = medicine.description?.match(/Packaging:\s*(.*?)(?:\.|$)/);
+  const packaging = packagingMatch ? packagingMatch[1] : null;
+
   return (
     <Card itemScope itemType="http://schema.org/Product" className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col h-full bg-white border-gray-100">
       <Link href={`/medicine/${medicine.id}`} className="relative aspect-square w-full bg-gray-50 flex items-center justify-center p-4 group">
@@ -44,6 +47,9 @@ export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
           <h3 itemProp="name" className="font-semibold text-lg text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">{medicine.name}</h3>
         </Link>
         <p itemProp="brand" className="text-xs text-gray-500 mt-1">{medicine.manufacturer || 'Unknown Manufacturer'}</p>
+        {packaging && (
+          <p className="text-xs font-medium text-blue-600 mt-1 bg-blue-50 w-fit px-2 py-0.5 rounded-full border border-blue-100">{packaging}</p>
+        )}
         
         <div className="mt-4 flex items-center justify-between">
           <div>
@@ -54,9 +60,7 @@ export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
       </CardContent>
 
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors">
-          Add to Cart
-        </Button>
+        <AddToCartForm medicineId={medicine.id} />
       </CardFooter>
     </Card>
   );
