@@ -99,4 +99,44 @@ export class AIService {
       return { isValid: false, error: "Verification failed. Please try again or upload a clearer image." };
     }
   }
+
+  /**
+   * Generates comprehensive medical details (side effects, usage, interactions) for a given medicine.
+   */
+  static async generateComprehensiveMedicineDetails(medicineName: string) {
+    if (!apiKey) {
+      return null;
+    }
+
+    try {
+      const prompt = `
+        You are a professional medical database API. A user is viewing the medicine: "${medicineName}".
+        Provide comprehensive medical details for this medicine in a strictly formatted JSON object.
+        Structure:
+        {
+          "howToUse": "A concise paragraph explaining how to use it.",
+          "sideEffects": ["Array", "of", "common", "side effects"],
+          "interactions": ["Array", "of", "things", "it interacts with (food, other drugs)"],
+          "warnings": ["Array", "of", "important", "medical warnings"]
+        }
+        Do not include any markdown formatting or backticks. Return ONLY the raw JSON string.
+      `;
+
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+        config: {
+          temperature: 0.1,
+        }
+      });
+
+      const responseText = response.text?.trim() || "";
+      const jsonStr = responseText.replace(/```json/g, '').replace(/```/g, '');
+      
+      return JSON.parse(jsonStr);
+    } catch (error) {
+      console.error("AI Medical Details Generation failed:", error);
+      return null;
+    }
+  }
 }

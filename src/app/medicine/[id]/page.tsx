@@ -2,7 +2,9 @@ import { prisma } from "@/config/db";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import HealthBotClient from "./HealthBotClient"; // We'll create this client component next
+import HealthBotClient from "./HealthBotClient";
+import { AddToCartForm } from "@/components/medicine/AddToCartForm";
+import { DynamicMedicalDetails } from "@/components/medicine/DynamicMedicalDetails";
 
 export default async function MedicineDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -45,8 +47,10 @@ export default async function MedicineDetailPage({ params }: { params: Promise<{
           </div>
 
           <div className="flex gap-4">
-            <Button size="lg" className="flex-1 bg-blue-600 hover:bg-blue-700">Add to Cart</Button>
+            <AddToCartForm medicineId={medicine.id} />
           </div>
+
+          <DynamicMedicalDetails medicineId={medicine.id} medicineName={medicine.name} />
         </div>
 
         {/* Right Side: AI Medical Assistant */}
