@@ -12,11 +12,18 @@ export class MedicineRepository {
     const where: any = {};
     
     if (searchTerm) {
-      where.OR = [
-        { name: { contains: searchTerm, mode: 'insensitive' } },
-        { description: { contains: searchTerm, mode: 'insensitive' } },
-        { manufacturer: { contains: searchTerm, mode: 'insensitive' } },
-      ];
+      // Split the search term by spaces or hyphens to perform tokenized searching
+      const tokens = searchTerm.split(/[\s-]+/).filter(t => t.length > 0);
+      
+      if (tokens.length > 0) {
+        where.AND = tokens.map(token => ({
+          OR: [
+            { name: { contains: token, mode: 'insensitive' } },
+            { description: { contains: token, mode: 'insensitive' } },
+            { manufacturer: { contains: token, mode: 'insensitive' } },
+          ]
+        }));
+      }
     }
     
     if (category) {
