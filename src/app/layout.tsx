@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Providers } from "@/components/layout/Providers";
+import { GlobalChatbot } from "@/components/ui/GlobalChatbot";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -46,6 +47,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <GlobalChatbot />
         </Providers>
       </body>
     </html>
