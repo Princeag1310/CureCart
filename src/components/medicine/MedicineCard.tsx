@@ -15,7 +15,7 @@ export interface MedicineProps {
 
 export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col h-full bg-white border-gray-100">
+    <Card itemScope itemType="http://schema.org/Product" className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col h-full bg-white border-gray-100">
       <Link href={`/medicine/${medicine.id}`} className="relative aspect-square w-full bg-gray-50 flex items-center justify-center p-4 group">
         {medicine.image ? (
           <Image
@@ -41,13 +41,14 @@ export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
 
       <CardContent className="flex-1 p-4">
         <Link href={`/medicine/${medicine.id}`}>
-          <h3 className="font-semibold text-lg text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">{medicine.name}</h3>
+          <h3 itemProp="name" className="font-semibold text-lg text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">{medicine.name}</h3>
         </Link>
-        <p className="text-xs text-gray-500 mt-1">{medicine.manufacturer || 'Unknown Manufacturer'}</p>
+        <p itemProp="brand" className="text-xs text-gray-500 mt-1">{medicine.manufacturer || 'Unknown Manufacturer'}</p>
         
         <div className="mt-4 flex items-center justify-between">
-          <div className="flex items-baseline text-xl font-bold text-gray-900">
-            ₹{medicine.price.toFixed(2)}
+          <div>
+            <span className="text-xl font-bold text-gray-900">₹</span>
+            <span itemProp="price" className="text-xl font-bold text-gray-900">{medicine.price.toFixed(2)}</span>
           </div>
         </div>
       </CardContent>
