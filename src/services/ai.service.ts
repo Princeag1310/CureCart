@@ -1,19 +1,17 @@
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.GEMINI_API_KEY || "";
-// Initialize the AI SDK. It will throw an error if no API key is provided and we try to use it.
-const ai = new GoogleGenAI({ apiKey });
-
 export class AIService {
   /**
    * Given a medicine name, uses Gemini to search and structure medical information.
    * Prompts the AI to act as a medical data scraper and return pure JSON.
    */
   static async scrapeMedicineDetails(query: string) {
+    const apiKey = process.env.GEMINI_API_KEY || "";
     if (!apiKey) {
       console.warn("GEMINI_API_KEY is not set. Returning fallback data.");
       return null;
     }
+    const ai = new GoogleGenAI({ apiKey });
 
     try {
       const prompt = `
@@ -59,10 +57,12 @@ export class AIService {
    * Uses Gemini Vision AI to verify if an uploaded image is a valid prescription.
    */
   static async analyzePrescriptionImage(base64Image: string, mimeType: string) {
+    const apiKey = process.env.GEMINI_API_KEY || "";
     if (!apiKey) {
       console.warn("GEMINI_API_KEY is not set. Mocking verification for dev.");
       return { isValid: true, extractedMedicines: ["Mock Medicine"], doctorName: "Dr. Mock" };
     }
+    const ai = new GoogleGenAI({ apiKey });
 
     try {
       const prompt = `
@@ -104,9 +104,11 @@ export class AIService {
    * Generates comprehensive medical details (side effects, usage, interactions) for a given medicine.
    */
   static async generateComprehensiveMedicineDetails(medicineName: string) {
+    const apiKey = process.env.GEMINI_API_KEY || "";
     if (!apiKey) {
       return null;
     }
+    const ai = new GoogleGenAI({ apiKey });
 
     try {
       const prompt = `

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.GEMINI_API_KEY || "";
-const ai = new GoogleGenAI({ apiKey });
-
 export async function POST(req: NextRequest) {
   try {
+    const apiKey = process.env.GEMINI_API_KEY || "";
+    const ai = new GoogleGenAI({ apiKey });
+
     const { message, medicineName } = await req.json();
 
     if (!message) {
@@ -42,6 +42,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ reply: response.text });
   } catch (error: any) {
     console.error("Health Bot Error:", error);
-    return NextResponse.json({ error: "Failed to generate AI response" }, { status: 500 });
+    return NextResponse.json({ error: error?.message || "Failed to generate AI response" }, { status: 500 });
   }
 }
