@@ -14,7 +14,7 @@ export interface MedicineProps {
 }
 
 export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
-  const packagingMatch = medicine.description?.match(/Packaging:\s*(.*?)(?:\.|$)/);
+  const packagingMatch = medicine.description?.match(/Packaging:\s*(.*?)\.\s*Salt Composition:/);
   const packaging = packagingMatch ? packagingMatch[1] : null;
 
   return (
