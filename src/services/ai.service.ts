@@ -34,13 +34,18 @@ export class AIService {
         contents: prompt,
         config: {
           temperature: 0.2, // Low temperature for more factual responses
+          responseMimeType: "application/json"
         }
       });
 
       const responseText = response.text?.trim() || "";
-      const jsonStr = responseText.replace(/```json/g, '').replace(/```/g, '');
       
-      const data = JSON.parse(jsonStr);
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        return null;
+      }
+      
+      const data = JSON.parse(jsonMatch[0]);
 
       if (data.error) {
         return null;

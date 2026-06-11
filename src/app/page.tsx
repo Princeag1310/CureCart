@@ -2,6 +2,7 @@ import { MedicineService } from '@/services/medicine.service';
 import { MedicineCard } from '@/components/medicine/MedicineCard';
 import { SearchBar } from '@/components/medicine/SearchBar';
 import { SortSelect } from '@/components/medicine/SortSelect';
+import { AIFallbackSearch } from '@/components/medicine/AIFallbackSearch';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic'; // Ensure we fetch fresh data
@@ -94,6 +95,8 @@ export default async function Home({
               <MedicineCard key={medicine.id} medicine={medicine} />
             ))}
           </div>
+        ) : query ? (
+          <AIFallbackSearch query={query} />
         ) : (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,8 +104,7 @@ export default async function Home({
             </svg>
             <h3 className="text-xl font-semibold text-gray-900">No medicines found</h3>
             <p className="text-gray-500 mt-2 text-center max-w-md">
-              We couldn't find any exact matches for "{query}". 
-              Don't worry, our AI will automatically scrape the internet to find it for you in the next phase!
+              We couldn't find any exact matches. Try selecting a different category.
             </p>
           </div>
         )}
