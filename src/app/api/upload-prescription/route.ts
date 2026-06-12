@@ -33,24 +33,13 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Save the prescription to Image Storage (ImageKit.io)
-    // NOTE: You will need to create a free ImageKit account and set your API keys in .env
-    /*
-    import ImageKit from "imagekit";
+    const { ImageKitService } = await import("@/services/imagekit.service");
     
-    const imagekit = new ImageKit({
-      publicKey: process.env.IMAGEKIT_PUBLIC_KEY!,
-      privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-      urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT!
-    });
-
-    const uploadResponse = await imagekit.upload({
-      file: base64Image, // base64 string
-      fileName: `prescription_${Date.now()}.jpg`,
-      folder: "/curecart_prescriptions"
-    });
-    const finalImageUrl = uploadResponse.url;
-    */
-    const finalImageUrl = "https://ik.imagekit.io/demo/img/sample.jpg"; // Placeholder for now
+    const finalImageUrl = await ImageKitService.uploadImage(
+      base64Image,
+      "/curecart_prescriptions",
+      `prescription_${Date.now()}`
+    );
 
     // 3. Save the prescription record to the database
     const prescription = await prisma.prescription.create({
