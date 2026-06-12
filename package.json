@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "cron": "npx tsx src/cron/refillJob.ts",
+    "migrate:images": "npx tsx src/scripts/migrate-images.ts",
     "test:e2e": "playwright test"
   },
   "prisma": {
