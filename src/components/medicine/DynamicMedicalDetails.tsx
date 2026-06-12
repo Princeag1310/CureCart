@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AlertCircle, Activity, Info, AlertTriangle } from "lucide-react";
 
 interface MedicalDetails {
+  uses?: string[];
   howToUse: string;
   sideEffects: string[];
   interactions: string[];
@@ -73,6 +74,24 @@ export function DynamicMedicalDetails({ medicineId, medicineName }: { medicineId
           {details.howToUse}
         </p>
       </div>
+
+      {/* Primary Uses / Diseases */}
+      {details.uses && details.uses.length > 0 && (
+        <div className="bg-emerald-50/50 p-6 rounded-2xl shadow-sm border border-emerald-100">
+          <h3 className="text-base font-bold text-emerald-800 flex items-center gap-2 mb-3">
+            <Activity className="w-4 h-4 text-emerald-500" />
+            Primary Uses & Treatment
+          </h3>
+          <ul className="space-y-2">
+            {details.uses.map((use, i) => (
+              <li key={i} className="text-sm text-emerald-700 flex items-start gap-2">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                {use}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Side Effects */}

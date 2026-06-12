@@ -161,6 +161,7 @@ export class AIService {
         Provide comprehensive medical details for this medicine in a strictly formatted JSON object.
         Structure:
         {
+          "uses": ["Array", "of", "diseases", "or", "conditions", "this treats"],
           "howToUse": "A concise paragraph explaining how to use it.",
           "sideEffects": ["Array", "of", "common", "side effects"],
           "interactions": ["Array", "of", "things", "it interacts with (food, other drugs)"],
