@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/config/db";
 import { AIService } from "@/services/ai.service";
 
+export const maxDuration = 60; // Allow up to 60 seconds for AI generation
+
 export async function POST(req: NextRequest) {
   try {
     const { query } = await req.json();
