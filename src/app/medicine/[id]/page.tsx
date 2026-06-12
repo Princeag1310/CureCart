@@ -37,14 +37,59 @@ export default async function MedicineDetailPage({ params }: { params: Promise<{
           </div>
           
           <h1 className="text-3xl font-bold text-gray-900 mb-2">{medicine.name}</h1>
-          <p className="text-xl text-blue-600 font-semibold mb-4">₹{medicine.price.toFixed(2)}</p>
-          
-          <div className="bg-blue-50 p-4 rounded-lg mb-6">
-            <span className={`text-xs font-bold px-2 py-1 rounded-full ${medicine.requiresPrescription ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+          <div className="flex items-center gap-3 mb-4">
+            <p className="text-2xl text-blue-600 font-bold">₹{medicine.price.toFixed(2)}</p>
+            <span className={`text-xs font-bold px-3 py-1 rounded-full ${medicine.requiresPrescription ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-green-100 text-green-700 border border-green-200'}`}>
               {medicine.requiresPrescription ? "Prescription Required" : "OTC Product"}
             </span>
-            <p className="mt-3 text-gray-700 text-sm">{medicine.description || "No description available for this product."}</p>
           </div>
+          
+          {/* Parsed Description Details */}
+          {(() => {
+            const desc = medicine.description || "";
+            const mMatch = desc.match(/Manufactured by (.*?)(?:\. Packaging:|\. Salt Composition:|$)/i);
+            const pMatch = desc.match(/Packaging: (.*?)(?:\. Salt Composition:|$)/i);
+            const sMatch = desc.match(/Salt Composition: (.*)$/i);
+            
+            const manufacturer = mMatch ? mMatch[1].trim() : null;
+            const packaging = pMatch ? pMatch[1].trim() : null;
+            const composition = sMatch ? sMatch[1].trim() : null;
+
+            if (manufacturer || packaging || composition) {
+              return (
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-8">
+                  <h3 className="font-semibold text-gray-900 mb-4 text-sm uppercase tracking-wider">Product Information</h3>
+                  <div className="space-y-3">
+                    {manufacturer && (
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b border-gray-200/60 last:border-0 last:pb-0">
+                        <span className="text-gray-500 text-sm font-medium">Manufacturer</span>
+                        <span className="text-gray-900 font-medium text-sm text-left sm:text-right">{manufacturer}</span>
+                      </div>
+                    )}
+                    {composition && (
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b border-gray-200/60 last:border-0 last:pb-0">
+                        <span className="text-gray-500 text-sm font-medium">Salt Composition</span>
+                        <span className="text-gray-900 font-medium text-sm text-left sm:text-right">{composition}</span>
+                      </div>
+                    )}
+                    {packaging && (
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b border-gray-200/60 last:border-0 last:pb-0">
+                        <span className="text-gray-500 text-sm font-medium">Packaging</span>
+                        <span className="text-gray-900 font-medium text-sm text-left sm:text-right">{packaging}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div className="bg-gray-50 border border-gray-200 p-4 rounded-xl mb-8">
+                <h3 className="font-semibold text-gray-900 mb-2 text-sm uppercase tracking-wider">Description</h3>
+                <p className="text-gray-700 text-sm leading-relaxed">{desc || "No description available for this product."}</p>
+              </div>
+            );
+          })()}
 
           <div className="flex gap-4">
             <AddToCartForm medicineId={medicine.id} />
