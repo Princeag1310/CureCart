@@ -61,10 +61,18 @@ export function AIFallbackSearch({ query }: { query: string }) {
   if (medicine) {
     return (
       <div className="space-y-6">
-        <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-xl flex items-center gap-3">
-          <Bot className="w-5 h-5 text-green-600" />
+        <div className={`border px-4 py-3 rounded-xl flex items-center gap-3 ${medicine._source === "db_corrected" ? "bg-blue-50 border-blue-200 text-blue-800" : "bg-green-50 border-green-200 text-green-800"}`}>
+          <Bot className={`w-5 h-5 ${medicine._source === "db_corrected" ? "text-blue-600" : "text-green-600"}`} />
           <p className="text-sm font-medium">
-            Success! Our AI found <strong>{medicine.name}</strong> on the web and dynamically added it to our catalog for you.
+            {medicine._source === "db_corrected" ? (
+              <>
+                Did you mean <strong>{medicine._correctedQuery}</strong>? We corrected your spelling and found it in our catalog!
+              </>
+            ) : (
+              <>
+                Success! Our AI found <strong>{medicine.name}</strong> on the web and dynamically added it to our catalog for you.
+              </>
+            )}
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

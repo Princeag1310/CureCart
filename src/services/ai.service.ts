@@ -59,6 +59,46 @@ export class AIService {
   }
 
   /**
+   * Spellchecks a medical query. If it's a typo, returns the correct name.
+   */
+  static async spellcheckMedicineName(query: string) {
+    const apiKey = process.env.GEMINI_API_KEY || "";
+    if (!apiKey) return query; // Fallback to original query
+    const ai = new GoogleGenAI({ apiKey });
+
+    try {
+      const prompt = `
+        You are a medical spellchecker. A user searched for "${query}".
+        If there is a typo, return the correct standard medical or brand name.
+        If it is correctly spelled, return it exactly as is.
+        Return ONLY a JSON object with this structure:
+        { "corrected": "string" }
+        Do not include markdown or backticks. Return raw JSON.
+      `;
+
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+        config: {
+          temperature: 0.1,
+          responseMimeType: "application/json"
+        }
+      });
+
+      const responseText = response.text?.trim() || "";
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const data = JSON.parse(jsonMatch[0]);
+        return data.corrected || query;
+      }
+      return query;
+    } catch (error) {
+      console.error("AI Spellcheck failed:", error);
+      return query;
+    }
+  }
+
+  /**
    * Uses Gemini Vision AI to verify if an uploaded image is a valid prescription.
    */
   static async analyzePrescriptionImage(base64Image: string, mimeType: string) {

@@ -21,12 +21,40 @@ export async function POST(req: NextRequest) {
     });
 
     if (existing) {
-      return NextResponse.json(existing);
+      return NextResponse.json({ ...existing, _source: "db_direct" });
     }
 
-    // 2. Trigger AI Scraper
-    console.log(`[AI Engine - Client Triggered] Scraping for "${query}"...`);
-    const aiData = await AIService.scrapeMedicineDetails(query);
+    // 2. AI Spellcheck - Let's see if the user made a typo
+    console.log(`[AI Spellchecker] Checking spelling for "${query}"...`);
+    const correctedQuery = await AIService.spellcheckMedicineName(query);
+    
+    if (correctedQuery.toLowerCase() !== query.toLowerCase()) {
+      console.log(`[AI Spellchecker] Corrected "${query}" to "${correctedQuery}"`);
+      
+      // Check if the CORRECTED spelling exists in the database
+      const existingCorrected = await prisma.medicine.findFirst({
+        where: {
+          name: {
+            contains: correctedQuery,
+            mode: "insensitive"
+          }
+        }
+      });
+
+      if (existingCorrected) {
+        return NextResponse.json({ 
+          ...existingCorrected, 
+          _source: "db_corrected", 
+          _originalQuery: query,
+          _correctedQuery: correctedQuery 
+        });
+      }
+    }
+
+    // 3. Trigger AI Scraper using the best available spelling
+    const searchTarget = correctedQuery || query;
+    console.log(`[AI Engine - Client Triggered] Scraping web for "${searchTarget}"...`);
+    const aiData = await AIService.scrapeMedicineDetails(searchTarget);
 
     if (!aiData) {
       return NextResponse.json({ error: "No medical data could be found for this search term." }, { status: 404 });
