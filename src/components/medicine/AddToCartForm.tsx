@@ -6,13 +6,17 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 export function AddToCartForm({ medicineId }: { medicineId: string }) {
-  const { data: session, status } = useSession();
+  const sessionObj = useSession();
+  // In some Next.js 15/React 19 SSR edge cases, NextAuth v4 useSession() returns undefined instead of throwing
+  const session = sessionObj?.data;
+  const status = sessionObj?.status || "loading";
+
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const handleAddToCart = async () => {
-    if (status === "unauthenticated" || !session) {
+    if (status === "unauthenticated" || (!session && status !== "loading")) {
       router.push("/login");
       return;
     }
