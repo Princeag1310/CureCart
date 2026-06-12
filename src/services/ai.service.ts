@@ -30,7 +30,7 @@ export class AIService {
       `;
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-1.5-flash",
         contents: prompt,
         config: {
           temperature: 0.2, // Low temperature for more factual responses
@@ -77,7 +77,7 @@ export class AIService {
       `;
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-1.5-flash",
         contents: prompt,
         config: {
           temperature: 0.1,
@@ -124,7 +124,7 @@ export class AIService {
       `;
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-1.5-flash",
         contents: [
           prompt,
           {
@@ -170,7 +170,7 @@ export class AIService {
       `;
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-1.5-flash",
         contents: prompt,
         config: {
           temperature: 0.1,
