@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/config/auth";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -71,9 +72,9 @@ export default async function ProfilePage() {
             </div>
             <h3 className="font-medium text-gray-900">Your Orders</h3>
             <p className="text-sm text-gray-500 mt-1 mb-4">View and track your previous medical orders.</p>
-            <button className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+            <Link href="/orders" className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
               View Order History &rarr;
-            </button>
+            </Link>
           </div>
         </div>
 

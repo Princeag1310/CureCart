@@ -113,4 +113,22 @@ export class OrderService {
       return order;
     });
   }
+
+  /**
+   * Fetch a user's order history
+   */
+  static async getUserOrders(userId: string) {
+    return await prisma.order.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        items: {
+          include: {
+            medicine: true,
+          },
+        },
+        prescription: true,
+      },
+    });
+  }
 }
