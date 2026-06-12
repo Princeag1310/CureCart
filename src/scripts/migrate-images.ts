@@ -23,7 +23,7 @@ const CSV_DIR = path.resolve('/Users/prince_agrawal/Downloads/1mg web scraping/A
 const PLACEHOLDER_IMG_ID = 'hx2gxivwmeoxxxsc1hix.png';
 
 const MAX_MEDICINES_PER_FILE = 500;
-const BATCH_SIZE = 50; // Process 50 images concurrently
+const BATCH_SIZE = 5; // Reduced to 5 to prevent Prisma Aiven DB pool exhaustion
 
 async function processBatch(rows: any[]) {
   let uploaded = 0;
