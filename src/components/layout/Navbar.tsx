@@ -65,9 +65,9 @@ export function Navbar() {
             <div className="h-9 w-24 bg-gray-200 animate-pulse rounded-md"></div>
           ) : session ? (
             <div className="flex items-center gap-4">
-              <span className="text-sm font-medium text-gray-700 hidden sm:inline-block">
+              <Link href="/profile" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors hidden sm:inline-block">
                 Hi, {session.user?.name?.split(' ')[0] || 'User'}
-              </span>
+              </Link>
               <button
                 onClick={() => signOut({ callbackUrl: '/' })}
                 className="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-100 rounded-md shadow-sm hover:bg-blue-100 focus:outline-none transition-colors"

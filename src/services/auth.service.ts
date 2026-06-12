@@ -27,12 +27,22 @@ export class AuthService {
       where: { email },
     });
 
-    if (existingUser) {
-      throw new Error('User already exists with this email.');
-    }
-
-    // Hash password
     const hashedPassword = await this.hashPassword(passwordPlain);
+
+    if (existingUser) {
+      if (!existingUser.password) {
+        // Account linking: User registered via Google first, now they are setting a password
+        const updatedUser = await prisma.user.update({
+          where: { id: existingUser.id },
+          data: { password: hashedPassword }
+        });
+        const { password, ...userWithoutPassword } = updatedUser;
+        return userWithoutPassword;
+      } else {
+        // User already has an email/password account
+        throw new Error('Email is already registered. Please sign in.');
+      }
+    }
 
     // Create user
     const newUser = await prisma.user.create({
@@ -40,6 +50,7 @@ export class AuthService {
         email,
         password: hashedPassword,
         name,
+        role: 'USER'
       },
     });
 
