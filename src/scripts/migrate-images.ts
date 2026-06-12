@@ -22,6 +22,7 @@ const CSV_DIR = path.resolve('/Users/prince_agrawal/Downloads/1mg web scraping/A
 // The dummy image used by 1mg for "No preview available"
 const PLACEHOLDER_IMG_ID = 'hx2gxivwmeoxxxsc1hix.png';
 
+const MAX_MEDICINES_PER_FILE = 500;
 const DELAY_BETWEEN_UPLOADS_MS = 1000;
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -46,8 +47,14 @@ async function migrateImages() {
 
       await new Promise<void>((resolve, reject) => {
         const stream = fs.createReadStream(filePath).pipe(csv());
+        let fileProcessedCount = 0;
 
         stream.on('data', async (row) => {
+          if (fileProcessedCount >= MAX_MEDICINES_PER_FILE) {
+            stream.destroy();
+            return;
+          }
+          fileProcessedCount++;
 
           stream.pause(); // Pause stream to wait for async upload/db operation
 
