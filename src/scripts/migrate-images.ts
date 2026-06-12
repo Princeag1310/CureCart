@@ -8,7 +8,14 @@ import dotenv from 'dotenv';
 // Load environment variables for local script execution
 dotenv.config();
 
-const prisma = new PrismaClient();
+let dbUrl = process.env.DATABASE_URL || '';
+if (dbUrl && !dbUrl.includes('connection_limit')) {
+  dbUrl = dbUrl.includes('?') ? `${dbUrl}&connection_limit=3` : `${dbUrl}?connection_limit=3`;
+}
+
+const prisma = new PrismaClient({
+  datasources: { db: { url: dbUrl } }
+});
 
 const imagekit = new ImageKit({
   publicKey: process.env.IMAGEKIT_PUBLIC_KEY || '',
