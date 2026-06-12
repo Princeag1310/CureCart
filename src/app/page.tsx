@@ -10,16 +10,18 @@ export const dynamic = 'force-dynamic'; // Ensure we fetch fresh data
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string; category?: string; sort?: string }>;
+  searchParams: Promise<{ q?: string; page?: string; category?: string; sort?: string; letter?: string }>;
 }) {
   const resolvedParams = await searchParams;
   const query = resolvedParams.q;
   const category = resolvedParams.category;
   const sort = resolvedParams.sort || 'name-asc';
+  const letter = resolvedParams.letter;
   const currentPage = Number(resolvedParams.page) || 1;
-  const medicines = await MedicineService.searchMedicines(query, currentPage, category, sort);
+  
+  const { data: medicines, totalPages, totalCount } = await MedicineService.searchMedicines(query, currentPage, category, sort, letter);
 
-  const buildUrl = (overrides: { page?: number, category?: string | null, sort?: string }) => {
+  const buildUrl = (overrides: { page?: number, category?: string | null, sort?: string, letter?: string | null }) => {
     const params = new URLSearchParams();
     if (query) params.set('q', query);
     
@@ -28,12 +30,17 @@ export default async function Home({
     
     const srt = overrides.sort !== undefined ? overrides.sort : sort;
     if (srt) params.set('sort', srt);
+
+    const ltr = overrides.letter !== undefined ? overrides.letter : letter;
+    if (ltr) params.set('letter', ltr);
     
     const pg = overrides.page !== undefined ? overrides.page : currentPage;
     if (pg > 1) params.set('page', pg.toString());
     
     return `/?${params.toString()}`;
   };
+
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col items-center">
@@ -62,7 +69,7 @@ export default async function Home({
                 return (
                   <li key={catName}>
                     <Link 
-                      href={buildUrl({ category: catName === 'All' ? null : catName, page: 1 })} 
+                      href={buildUrl({ category: catName === 'All' ? null : catName, page: 1, letter: null })} 
                       className={`font-medium transition-colors ${isActive ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}
                     >
                       {catName}
@@ -75,22 +82,46 @@ export default async function Home({
         </aside>
 
         {/* Medicines Grid */}
-        <div className="flex-1">
+        <div className="flex-1 overflow-hidden">
+          
+          {/* Alphabet Filter Bar */}
+          {!query && (
+            <div className="mb-8 w-full overflow-x-auto pb-2 scrollbar-hide">
+              <div className="flex gap-2 min-w-max">
+                <Link 
+                  href={buildUrl({ letter: null, page: 1 })}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${!letter ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+                >
+                  All
+                </Link>
+                {alphabet.map((char) => (
+                  <Link
+                    key={char}
+                    href={buildUrl({ letter: char, page: 1 })}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${letter === char ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+                  >
+                    {char}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <h2 className="text-2xl font-bold text-gray-900">
-              {query ? `Search results for "${query}"` : category ? category : 'Popular Medicines'}
-              <span className="text-gray-500 text-sm ml-4 font-normal">{medicines.length} items on page</span>
+              {query ? `Search results for "${query}"` : category ? category : letter ? `Medicines starting with "${letter}"` : 'Popular Medicines'}
+              <span className="text-gray-500 text-sm ml-4 font-normal">{totalCount} items found</span>
             </h2>
             <div className="flex items-center gap-4">
-              {(query || category || sort !== 'name-asc') && (
-                <Link href="/" className="text-sm text-blue-600 hover:underline font-medium">Clear Filters</Link>
+              {(query || category || sort !== 'name-asc' || letter) && (
+                <Link href="/" className="text-sm text-blue-600 hover:underline font-medium flex-shrink-0">Clear Filters</Link>
               )}
               <SortSelect />
             </div>
           </div>
 
         {medicines.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {medicines.map((medicine: any) => (
               <MedicineCard key={medicine.id} medicine={medicine} />
             ))}
@@ -104,29 +135,56 @@ export default async function Home({
             </svg>
             <h3 className="text-xl font-semibold text-gray-900">No medicines found</h3>
             <p className="text-gray-500 mt-2 text-center max-w-md">
-              We couldn't find any exact matches. Try selecting a different category.
+              We couldn't find any exact matches. Try selecting a different filter.
             </p>
           </div>
         )}
 
-        {/* Pagination Controls */}
-        {medicines.length > 0 && (
-          <div className="mt-12 flex justify-center items-center gap-4">
+        {/* Numbered Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="mt-12 flex justify-center items-center gap-2 overflow-x-auto pb-4 scrollbar-hide">
             {currentPage > 1 && (
               <Link 
                 href={buildUrl({ page: currentPage - 1 })}
-                className="px-6 py-2.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-colors shadow-sm"
+                className="px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-colors shadow-sm"
               >
-                Previous
+                Prev
               </Link>
             )}
-            <span className="text-gray-500 font-medium">Page {currentPage}</span>
-            {medicines.length === 24 && (
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(pageNum => {
+                // Show first, last, and pages around current page
+                return pageNum === 1 || pageNum === totalPages || Math.abs(pageNum - currentPage) <= 2;
+              })
+              .map((pageNum, index, array) => {
+                // Add ellipsis if gap exists
+                const showEllipsis = index > 0 && pageNum - array[index - 1] > 1;
+                
+                return (
+                  <div key={pageNum} className="flex gap-2">
+                    {showEllipsis && <span className="px-2 py-2 text-gray-400">...</span>}
+                    <Link 
+                      href={buildUrl({ page: pageNum })}
+                      className={`w-10 h-10 flex items-center justify-center font-medium rounded-xl transition-colors shadow-sm ${
+                        currentPage === pageNum 
+                          ? 'bg-blue-600 text-white border-transparent' 
+                          : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                      }`}
+                    >
+                      {pageNum}
+                    </Link>
+                  </div>
+                );
+              })
+            }
+
+            {currentPage < totalPages && (
               <Link 
                 href={buildUrl({ page: currentPage + 1 })}
-                className="px-6 py-2.5 bg-blue-600 border border-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
+                className="px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-colors shadow-sm"
               >
-                Next Page
+                Next
               </Link>
             )}
           </div>

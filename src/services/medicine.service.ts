@@ -5,11 +5,11 @@ import Fuse from 'fuse.js';
 
 export class MedicineService {
   /**
-   * Search for medicines by a query string with pagination
+   * Search for medicines by a query string with pagination and letter filtering
    */
-  static async searchMedicines(query?: string, page: number = 1, category?: string, sort?: string) {
+  static async searchMedicines(query?: string, page: number = 1, category?: string, sort?: string, letter?: string) {
     // Delegate to Prisma database ILIKE search directly
-    const results = await MedicineRepository.getMedicines(query, page, category, sort);
+    const results = await MedicineRepository.getMedicines(query, page, category, sort, letter);
     
     // Note: We removed the synchronous AI scraping fallback here because calling Gemini during 
     // a Server-Side Render holds the PostgreSQL connection open for 3-4 seconds. In a Serverless 

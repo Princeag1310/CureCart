@@ -2,10 +2,9 @@ import { prisma } from '../config/db';
 
 export class MedicineRepository {
   /**
-   * Fetches all medicines, optionally filtering by a search term using pg_trgm.
-   * If search term is empty, fetches all medicines.
+   * Fetches medicines, optionally filtering by a search term, category, or starting letter.
    */
-  static async getMedicines(searchTerm?: string, page: number = 1, category?: string, sort?: string) {
+  static async getMedicines(searchTerm?: string, page: number = 1, category?: string, sort?: string, letter?: string) {
     const take = 24;
     const skip = (page - 1) * take;
 
@@ -15,6 +14,11 @@ export class MedicineRepository {
       where.category = category;
     }
 
+    if (letter) {
+      // Allow exact letter starting match
+      where.name = { startsWith: letter, mode: 'insensitive' };
+    }
+
     if (!searchTerm) {
       // Standard database pagination when no search term
       let orderBy: any = { name: 'asc' };
@@ -22,12 +26,22 @@ export class MedicineRepository {
       if (sort === 'price-asc') orderBy = { price: 'asc' };
       if (sort === 'price-desc') orderBy = { price: 'desc' };
 
-      return prisma.medicine.findMany({
-        where,
-        take,
-        skip,
-        orderBy,
-      });
+      // Run count and query in parallel
+      const [data, totalCount] = await Promise.all([
+        prisma.medicine.findMany({
+          where,
+          take,
+          skip,
+          orderBy,
+        }),
+        prisma.medicine.count({ where })
+      ]);
+
+      return {
+        data,
+        totalCount,
+        totalPages: Math.ceil(totalCount / take)
+      };
     }
 
     // --- HYBRID SEARCH LOGIC ---
@@ -93,8 +107,14 @@ export class MedicineRepository {
       });
     }
 
+    const totalCount = sortedMedicines.length;
+
     // 3. Manual Pagination
-    return sortedMedicines.slice(skip, skip + take);
+    return {
+      data: sortedMedicines.slice(skip, skip + take),
+      totalCount,
+      totalPages: Math.ceil(totalCount / take)
+    };
   }
 
   /**
