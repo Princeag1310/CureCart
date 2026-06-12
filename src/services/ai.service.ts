@@ -184,13 +184,13 @@ export class AIService {
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       if (!jsonMatch) {
         console.error("Failed to parse JSON from AI response:", responseText);
-        return null;
+        return { error: "Failed to parse JSON from AI response: " + responseText };
       }
       
       return JSON.parse(jsonMatch[0]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("AI Medical Details Generation failed:", error);
-      return null;
+      return { error: "Gemini API exception: " + (error.message || String(error)) };
     }
   }
 }

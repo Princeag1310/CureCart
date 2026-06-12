@@ -35,13 +35,16 @@ export async function GET(
     // 3. Generate dynamically via Gemini
     const aiDetails = await AIService.generateComprehensiveMedicineDetails(medicine.name);
 
-    if (!aiDetails) {
-      console.error("[AI Details] Failed to generate details for:", medicine.name);
+    if (!aiDetails || aiDetails.error) {
+      console.error("[AI Details] Failed to generate details for:", medicine.name, aiDetails?.error);
       return NextResponse.json({ 
         howToUse: "Please consult your doctor or pharmacist for specific usage instructions.",
         sideEffects: ["Information not currently available. Consult a healthcare professional."],
         interactions: ["Consult your doctor before mixing with other medications."],
-        warnings: ["If you experience any adverse reactions, seek medical help immediately."]
+        warnings: [
+          "If you experience any adverse reactions, seek medical help immediately.",
+          `Debug Info: ${aiDetails?.error || "Unknown AI error"}`
+        ]
       });
     }
 
