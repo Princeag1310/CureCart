@@ -67,12 +67,18 @@ export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
           </p>
 
           {(medicine.packaging || medicine.composition) && (
-            <div className="mt-3 space-y-1">
+            <div className="mt-3 flex flex-col gap-1.5 border-t border-gray-50 pt-3">
               {medicine.packaging && (
-                <p className="text-xs text-zinc-600 line-clamp-1"><span className="font-medium text-zinc-400">Pack:</span> {medicine.packaging}</p>
+                <div className="flex items-start gap-2">
+                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5 w-10 shrink-0">Pack</span>
+                  <p className="text-xs font-medium text-zinc-700 line-clamp-1">{medicine.packaging}</p>
+                </div>
               )}
               {medicine.composition && (
-                <p className="text-xs text-zinc-600 line-clamp-2 leading-relaxed"><span className="font-medium text-zinc-400">Comp:</span> {medicine.composition}</p>
+                <div className="flex items-start gap-2">
+                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5 w-10 shrink-0">Comp</span>
+                  <p className="text-xs font-medium text-zinc-700 line-clamp-2 leading-snug">{medicine.composition}</p>
+                </div>
               )}
             </div>
           )}
