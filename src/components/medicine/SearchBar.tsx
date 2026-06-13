@@ -93,7 +93,7 @@ export function SearchBar() {
 
       {/* Autocomplete Dropdown */}
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 text-left">
           <ul className="divide-y divide-gray-50 max-h-80 overflow-y-auto">
             {suggestions.map((item) => (
               <li key={item.id}>
@@ -103,13 +103,13 @@ export function SearchBar() {
                     setShowSuggestions(false);
                     setQuery(item.name);
                   }}
-                  className="block px-4 py-3 hover:bg-zinc-50 transition-colors flex items-center justify-between"
+                  className="flex items-start justify-between px-4 py-3 hover:bg-zinc-50 transition-colors w-full"
                 >
-                  <div className="flex flex-col">
-                    <span className="text-sm font-bold text-zinc-900">{item.name}</span>
-                    {item.category && <span className="text-xs text-zinc-500 mt-0.5">{item.category}</span>}
+                  <div className="flex flex-col flex-1 pr-4">
+                    <span className="text-sm font-bold text-zinc-900 leading-snug text-left line-clamp-2">{item.name}</span>
+                    {item.category && <span className="text-xs text-zinc-500 mt-1 text-left">{item.category}</span>}
                   </div>
-                  <span className="text-sm font-black text-emerald-600">₹{item.price}</span>
+                  <span className="text-sm font-black text-emerald-600 shrink-0 mt-0.5">₹{item.price}</span>
                 </Link>
               </li>
             ))}
