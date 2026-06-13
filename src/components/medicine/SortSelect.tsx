@@ -17,19 +17,22 @@ export function SortSelect() {
   };
 
   return (
-    <div className="relative">
-      <select
-        id="sort"
-        value={currentSort}
-        onChange={handleSortChange}
-        className="appearance-none bg-white text-gray-900 text-sm font-semibold rounded-xl pl-4 pr-10 py-2.5 shadow-[0_2px_10px_rgb(0,0,0,0.06)] hover:shadow-[0_4px_20px_rgb(0,0,0,0.1)] focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none transition-all cursor-pointer border-0"
-      >
-        <option value="name-asc">Name (A-Z)</option>
-        <option value="name-desc">Name (Z-A)</option>
-        <option value="price-asc">Price ↑</option>
-        <option value="price-desc">Price ↓</option>
-      </select>
-      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+    <div className="flex items-center gap-3">
+      <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Sort by</span>
+      <div className="relative">
+        <select
+          id="sort"
+          value={currentSort}
+          onChange={handleSortChange}
+          className="bg-zinc-50 border-0 text-sm font-bold text-zinc-800 rounded-lg py-2 px-3 focus:ring-2 focus:ring-emerald-500 cursor-pointer appearance-none pr-8"
+        >
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { MedicineService } from "@/services/medicine.service";
 import { MedicineCard } from "@/components/medicine/MedicineCard";
 import { SearchBar } from "@/components/medicine/SearchBar";
 import { AIFallbackSearch } from "@/components/medicine/AIFallbackSearch";
+import { SortSelect } from "@/components/medicine/SortSelect";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -112,16 +113,8 @@ export default async function Home({
               </p>
             </div>
             
-            {/* Sort Select Placeholder (would be extracted to a minimalist component) */}
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Sort by</span>
-              <select className="bg-zinc-50 border-0 text-sm font-bold text-zinc-800 rounded-lg py-2 px-3 focus:ring-2 focus:ring-emerald-500 cursor-pointer">
-                <option>Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>A-Z</option>
-              </select>
-            </div>
+            {/* Dynamic Sort Component */}
+            <SortSelect />
           </div>
 
           {/* Alphabet Filter - Clean Pills */}
