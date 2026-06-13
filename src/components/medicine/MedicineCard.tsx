@@ -11,6 +11,7 @@ export interface MedicineProps {
   price: number;
   requiresPrescription: boolean;
   image: string | null;
+  stock: number;
 }
 
 export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
@@ -70,7 +71,7 @@ export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
       </CardContent>
 
       <CardFooter className="p-4 pt-0">
-        <AddToCartForm medicineId={medicine.id} />
+        <AddToCartForm medicineId={medicine.id} stock={medicine.stock} />
       </CardFooter>
     </Card>
   );
