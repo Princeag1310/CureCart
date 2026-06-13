@@ -66,7 +66,6 @@ export async function POST(req: NextRequest) {
     const newMedicine = await prisma.medicine.create({
       data: {
         name: aiData.name,
-        description: aiData.description,
         manufacturer: aiData.manufacturer,
         price: aiData.price,
         requiresPrescription: aiData.requiresPrescription,

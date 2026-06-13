@@ -19,7 +19,6 @@ export class AIService {
         If this is a valid medicine, return a JSON object with the following structure:
         {
           "name": "Proper name of the medicine",
-          "description": "A short, professional description of what it treats and its active ingredients",
           "manufacturer": "Likely manufacturer or generic label",
           "price": A realistic estimated price in INR (number only),
           "requiresPrescription": boolean true/false based on standard regulations,

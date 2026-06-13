@@ -58,8 +58,9 @@ export class MedicineRepository {
         AND: tokens.map(token => {
           const conditions: any[] = [{ name: { contains: token, mode: 'insensitive' } }];
           if (token.length > 1) {
-            conditions.push({ description: { contains: token, mode: 'insensitive' } });
+            conditions.push({ uses: { hasSome: [token] } });
             conditions.push({ manufacturer: { contains: token, mode: 'insensitive' } });
+            conditions.push({ composition: { contains: token, mode: 'insensitive' } });
           }
           return { OR: conditions };
         })
@@ -78,7 +79,8 @@ export class MedicineRepository {
       keys: [
         { name: 'name', weight: 3 }, // Prioritize name matches heavily
         { name: 'manufacturer', weight: 1 },
-        { name: 'description', weight: 0.5 }
+        { name: 'composition', weight: 1 },
+        { name: 'category', weight: 0.5 },
       ],
       threshold: 0.4, // Allow slight typos
       ignoreLocation: true,

@@ -50,7 +50,6 @@ enum Role {
 model Medicine {
   id              String   @id @default(cuid())
   name            String   @unique
-  description     String?
   manufacturer    String?
   price           Float
   stock           Int      @default(0)

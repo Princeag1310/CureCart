@@ -89,9 +89,8 @@ export default async function MedicineDetailPage({ params }: { params: Promise<{
             )}
           </div>
 
-          {/* Parsed Description Details */}
-            {(() => {
-            const desc = medicine.description || "";
+          {/* Parsed Details */}
+          {(() => {
             const packaging = medicine.packaging;
             const composition = medicine.composition;
 
@@ -118,13 +117,7 @@ export default async function MedicineDetailPage({ params }: { params: Promise<{
                 </div>
               );
             }
-
-            return desc ? (
-              <div className="mb-12">
-                <h3 className="text-xl font-bold text-zinc-900 mb-4">Description</h3>
-                <p className="text-zinc-600 leading-relaxed text-sm font-medium">{desc}</p>
-              </div>
-            ) : null;
+            return null;
           })()}
 
           <DynamicMedicalDetails medicineId={medicine.id} medicineName={medicine.name} />
