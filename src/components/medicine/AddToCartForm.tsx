@@ -44,6 +44,8 @@ export function AddToCartForm({ medicineId, stock }: { medicineId: string, stock
         throw new Error(data.error || "Failed to add to cart");
       }
 
+      window.dispatchEvent(new Event('cartUpdated'));
+
       // Redirect to cart page upon success
       router.push("/cart");
     } catch (error: any) {

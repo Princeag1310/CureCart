@@ -60,6 +60,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
           throw new Error(data.error || "Failed to update quantity");
         }
 
+        window.dispatchEvent(new Event('cartUpdated'));
         // Only refresh the page routing data (for subtotal) once the final click is securely saved
         router.refresh();
       } catch (error: any) {
@@ -83,6 +84,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
         throw new Error(data.error || "Failed to remove item");
       }
 
+      window.dispatchEvent(new Event('cartUpdated'));
       router.refresh();
       // Keep isRemoving true while Next.js re-fetches the page so the item stays dimmed
     } catch (error: any) {

@@ -9,19 +9,26 @@ export function Navbar() {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      fetch('/api/cart')
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.items) {
-            const count = data.items.reduce((acc: number, item: any) => acc + item.quantity, 0);
-            setCartCount(count);
-          }
-        })
-        .catch(err => console.error("Failed to fetch cart:", err));
-    } else {
-      setCartCount(0);
-    }
+    const fetchCart = () => {
+      if (status === 'authenticated') {
+        fetch('/api/cart')
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.items) {
+              // The user requested the number of *unique* items, which is the length of the items array
+              setCartCount(data.items.length);
+            }
+          })
+          .catch(err => console.error("Failed to fetch cart:", err));
+      } else {
+        setCartCount(0);
+      }
+    };
+
+    fetchCart();
+
+    window.addEventListener('cartUpdated', fetchCart);
+    return () => window.removeEventListener('cartUpdated', fetchCart);
   }, [status]);
 
   return (
