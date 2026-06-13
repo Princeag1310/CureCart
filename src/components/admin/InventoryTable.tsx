@@ -22,7 +22,7 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
   const [isAdding, setIsAdding] = useState(false);
   const [addForm, setAddForm] = useState({ 
     name: "", price: "", stock: "", manufacturer: "", 
-    category: "", packaging: "", composition: "", requiresPrescription: false 
+    category: "", packaging: "", composition: "", image: "", requiresPrescription: false 
   });
 
   // Derived filtered medicines
@@ -105,7 +105,7 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
       
       setMedicines([newMed, ...medicines]);
       setIsAdding(false);
-      setAddForm({ name: "", price: "", stock: "", manufacturer: "", category: "", packaging: "", composition: "", requiresPrescription: false });
+      setAddForm({ name: "", price: "", stock: "", manufacturer: "", category: "", packaging: "", composition: "", image: "", requiresPrescription: false });
       router.refresh();
     } catch (err: any) {
       alert(err.message);
@@ -173,7 +173,10 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
                 <td className="px-4 py-4 space-y-2">
                   <input type="text" placeholder="Name*" className="w-full p-2 border border-blue-200 rounded" value={addForm.name} onChange={e => setAddForm({...addForm, name: e.target.value})} />
                   <input type="text" placeholder="Manufacturer" className="w-full p-2 border border-blue-200 rounded text-xs" value={addForm.manufacturer} onChange={e => setAddForm({...addForm, manufacturer: e.target.value})} />
-                  <input type="text" placeholder="Category" className="w-full p-2 border border-blue-200 rounded text-xs" value={addForm.category} onChange={e => setAddForm({...addForm, category: e.target.value})} />
+                  <div className="flex gap-2">
+                    <input type="text" placeholder="Category" className="w-1/2 p-2 border border-blue-200 rounded text-xs" value={addForm.category} onChange={e => setAddForm({...addForm, category: e.target.value})} />
+                    <input type="text" placeholder="Image URL" className="w-1/2 p-2 border border-blue-200 rounded text-xs" value={addForm.image || ''} onChange={e => setAddForm({...addForm, image: e.target.value})} />
+                  </div>
                 </td>
                 <td className="px-4 py-4 space-y-2">
                   <input type="text" placeholder="Composition" className="w-full p-2 border border-blue-200 rounded" value={addForm.composition} onChange={e => setAddForm({...addForm, composition: e.target.value})} />
@@ -208,7 +211,10 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
                     <div className="space-y-2">
                       <input type="text" placeholder="Name" className="w-full p-2 border rounded" value={editForm.name} onChange={e => setEditForm({...editForm, name: e.target.value})} />
                       <input type="text" placeholder="Manufacturer" className="w-full p-2 border rounded text-xs" value={editForm.manufacturer || ''} onChange={e => setEditForm({...editForm, manufacturer: e.target.value})} />
-                      <input type="text" placeholder="Category" className="w-full p-2 border rounded text-xs" value={editForm.category || ''} onChange={e => setEditForm({...editForm, category: e.target.value})} />
+                      <div className="flex gap-2">
+                        <input type="text" placeholder="Category" className="w-1/2 p-2 border rounded text-xs" value={editForm.category || ''} onChange={e => setEditForm({...editForm, category: e.target.value})} />
+                        <input type="text" placeholder="Image URL" className="w-1/2 p-2 border rounded text-xs" value={editForm.image || ''} onChange={e => setEditForm({...editForm, image: e.target.value})} />
+                      </div>
                     </div>
                   ) : (
                     <div>
