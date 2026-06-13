@@ -56,6 +56,7 @@ model Medicine {
   stock           Int      @default(0)
   requiresPrescription Boolean @default(false)
   image           String?
+  imageFileId     String?
   category        String?
   subCategory     String?
   packaging       String?

@@ -20,9 +20,10 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
   
   // Adding State
   const [isAdding, setIsAdding] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [addForm, setAddForm] = useState({ 
     name: "", price: "", stock: "", manufacturer: "", 
-    category: "", packaging: "", composition: "", image: "", requiresPrescription: false 
+    category: "", packaging: "", composition: "", image: "", imageFileId: "", requiresPrescription: false 
   });
 
   // Derived filtered medicines
@@ -58,6 +59,35 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
   const handleCancelEdit = () => {
     setEditingId(null);
     setEditForm({});
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, isEditForm: boolean) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Upload failed");
+      const data = await res.json();
+
+      if (isEditForm) {
+        setEditForm({ ...editForm, image: data.url, imageFileId: data.fileId });
+      } else {
+        setAddForm({ ...addForm, image: data.url, imageFileId: data.fileId });
+      }
+    } catch (err: any) {
+      alert("Failed to upload image: " + err.message);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleSaveEdit = async () => {
@@ -105,7 +135,7 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
       
       setMedicines([newMed, ...medicines]);
       setIsAdding(false);
-      setAddForm({ name: "", price: "", stock: "", manufacturer: "", category: "", packaging: "", composition: "", image: "", requiresPrescription: false });
+      setAddForm({ name: "", price: "", stock: "", manufacturer: "", category: "", packaging: "", composition: "", image: "", imageFileId: "", requiresPrescription: false });
       router.refresh();
     } catch (err: any) {
       alert(err.message);
@@ -175,7 +205,11 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
                   <input type="text" placeholder="Manufacturer" className="w-full p-2 border border-blue-200 rounded text-xs" value={addForm.manufacturer} onChange={e => setAddForm({...addForm, manufacturer: e.target.value})} />
                   <div className="flex gap-2">
                     <input type="text" placeholder="Category" className="w-1/2 p-2 border border-blue-200 rounded text-xs" value={addForm.category} onChange={e => setAddForm({...addForm, category: e.target.value})} />
-                    <input type="text" placeholder="Image URL" className="w-1/2 p-2 border border-blue-200 rounded text-xs" value={addForm.image || ''} onChange={e => setAddForm({...addForm, image: e.target.value})} />
+                    <div className="w-1/2 flex items-center gap-1 border border-blue-200 rounded p-1 bg-white">
+                      <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, false)} className="w-full text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                      {isUploading && <span className="text-xs text-blue-500 font-medium">...</span>}
+                      {!isUploading && addForm.image && <span className="text-xs text-green-600 font-bold">✓</span>}
+                    </div>
                   </div>
                 </td>
                 <td className="px-4 py-4 space-y-2">
@@ -213,7 +247,11 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
                       <input type="text" placeholder="Manufacturer" className="w-full p-2 border rounded text-xs" value={editForm.manufacturer || ''} onChange={e => setEditForm({...editForm, manufacturer: e.target.value})} />
                       <div className="flex gap-2">
                         <input type="text" placeholder="Category" className="w-1/2 p-2 border rounded text-xs" value={editForm.category || ''} onChange={e => setEditForm({...editForm, category: e.target.value})} />
-                        <input type="text" placeholder="Image URL" className="w-1/2 p-2 border rounded text-xs" value={editForm.image || ''} onChange={e => setEditForm({...editForm, image: e.target.value})} />
+                        <div className="w-1/2 flex items-center gap-1 border rounded p-1 bg-white">
+                          <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, true)} className="w-full text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                          {isUploading && <span className="text-xs text-blue-500 font-medium">...</span>}
+                          {!isUploading && editForm.image && <span className="text-xs text-green-600 font-bold">✓</span>}
+                        </div>
                       </div>
                     </div>
                   ) : (
