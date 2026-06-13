@@ -43,7 +43,7 @@ export async function GET(
         interactions: ["Consult your doctor before mixing with other medications."],
         warnings: [
           "If you experience any adverse reactions, seek medical help immediately.",
-          `Debug Info: ${aiDetails?.error || "Unknown AI error"}`
+          "Our AI service is currently experiencing high traffic. Please check back later for detailed information."
         ]
       });
     }
