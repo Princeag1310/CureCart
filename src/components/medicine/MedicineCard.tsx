@@ -23,7 +23,7 @@ export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
       className="group flex flex-col bg-white rounded-2xl overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 border border-gray-100 h-full"
     >
       {/* Image Container - takes up top portion */}
-      <Link href={`/medicine/${medicine.id}`} className="relative aspect-square w-full bg-zinc-50 flex items-center justify-center p-6 border-b border-gray-50 overflow-hidden block">
+      <Link href={`/medicine/${medicine.id}`} className="relative aspect-[4/3] w-full bg-white flex items-center justify-center p-4 border-b border-gray-50 overflow-hidden block">
         {medicine.image ? (
           <Image
             src={medicine.image}
@@ -56,46 +56,36 @@ export function MedicineCard({ medicine }: { medicine: MedicineProps }) {
       </Link>
 
       {/* Info Container */}
-      <div className="p-5 flex flex-col flex-1">
+      <div className="p-4 flex flex-col flex-1">
         <Link href={`/medicine/${medicine.id}`} className="flex flex-col flex-1">
-          <h3 itemProp="name" className="font-bold text-base text-gray-900 line-clamp-2 leading-snug group-hover:text-emerald-700 transition-colors">
-            {medicine.name}
-          </h3>
+          <div className="flex justify-between items-start gap-2 mb-1">
+            <h3 itemProp="name" className="font-bold text-[15px] text-gray-900 line-clamp-2 leading-tight group-hover:text-emerald-700 transition-colors">
+              {medicine.name}
+            </h3>
+            <span itemProp="price" className="text-lg font-black text-emerald-600 shrink-0">₹{medicine.price.toFixed(2)}</span>
+          </div>
           
-          <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mt-2 truncate">
+          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider truncate mb-2">
             {medicine.manufacturer || 'General'}
           </p>
 
           {(medicine.packaging || medicine.composition) && (
-            <div className="mt-3 flex flex-col gap-1.5 border-t border-gray-50 pt-3">
+            <div className="flex flex-wrap gap-1 mt-auto">
               {medicine.packaging && (
-                <div className="flex items-start gap-2">
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5 w-10 shrink-0">Pack</span>
-                  <p className="text-xs font-medium text-zinc-700 line-clamp-1">{medicine.packaging}</p>
-                </div>
+                 <span className="text-[10px] font-medium text-zinc-600 bg-zinc-100 px-1.5 py-0.5 rounded border border-zinc-200">{medicine.packaging}</span>
               )}
               {medicine.composition && (
-                <div className="flex items-start gap-2">
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5 w-10 shrink-0">Comp</span>
-                  <p className="text-xs font-medium text-zinc-700 line-clamp-2 leading-snug">{medicine.composition}</p>
-                </div>
+                 <span className="text-[10px] font-medium text-zinc-600 bg-zinc-100 px-1.5 py-0.5 rounded border border-zinc-200 truncate max-w-[180px]">{medicine.composition}</span>
               )}
             </div>
           )}
           
-          {/* Fill available space to push price down */}
+          {/* Fill available space to push add to cart down */}
           <div className="flex-1 min-h-[1rem]"></div>
-
-          <div className="mt-4 flex items-end justify-between border-t border-gray-50 pt-4">
-            <div>
-              <p className="text-[10px] text-gray-400 font-medium mb-0.5">PRICE</p>
-              <span itemProp="price" className="text-xl font-black text-gray-900">₹{medicine.price.toFixed(2)}</span>
-            </div>
-          </div>
         </Link>
         
-        <div className="mt-4 w-full">
-          <AddToCartForm medicineId={medicine.id} stock={medicine.stock} />
+        <div className="mt-3 w-full border-t border-gray-50 pt-3">
+          <AddToCartForm medicineId={medicine.id} stock={medicine.stock} compact={true} />
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 
-export function AddToCartForm({ medicineId, stock }: { medicineId: string, stock: number }) {
+export function AddToCartForm({ medicineId, stock, compact = false }: { medicineId: string, stock: number, compact?: boolean }) {
   const sessionObj = useSession();
   // In some Next.js 15/React 19 SSR edge cases, NextAuth v4 useSession() returns undefined instead of throwing
   const session = sessionObj?.data;
@@ -64,24 +64,24 @@ export function AddToCartForm({ medicineId, stock }: { medicineId: string, stock
   }
 
   return (
-    <div className="flex flex-col w-full gap-2">
-      <div className="flex items-center justify-between h-9 w-full bg-gray-50 rounded-lg overflow-hidden shrink-0 border border-gray-200">
+    <div className={`flex w-full gap-2 ${compact ? 'flex-row' : 'flex-col sm:flex-row'}`}>
+      <div className={`flex items-center justify-between bg-gray-50 rounded-lg overflow-hidden shrink-0 border border-gray-200 ${compact ? 'h-9 w-24' : 'h-10 w-28'}`}>
         <button 
           type="button"
           onClick={decrement}
           disabled={quantity <= 1 || loading}
-          className="w-10 h-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 disabled:opacity-30 transition-colors"
+          className="w-full h-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 disabled:opacity-30 transition-colors"
         >
           <Minus className="w-3.5 h-3.5" />
         </button>
-        <div className="flex-1 h-full flex items-center justify-center font-bold text-sm text-gray-900 bg-white">
+        <div className="w-full h-full flex items-center justify-center font-bold text-sm text-gray-900 bg-white">
           {quantity}
         </div>
         <button 
           type="button"
           onClick={increment}
           disabled={quantity >= stock || loading}
-          className="w-10 h-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 disabled:opacity-30 transition-colors"
+          className="w-full h-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 disabled:opacity-30 transition-colors"
         >
           <Plus className="w-3.5 h-3.5" />
         </button>
@@ -90,14 +90,14 @@ export function AddToCartForm({ medicineId, stock }: { medicineId: string, stock
       <Button 
         onClick={handleAddToCart} 
         disabled={loading}
-        className="w-full flex-1 bg-zinc-900 hover:bg-emerald-600 text-white transition-colors duration-300 h-10 text-sm font-bold rounded-lg shadow-sm border-0 flex items-center justify-center gap-2"
+        className={`w-full flex-1 bg-zinc-900 hover:bg-emerald-600 text-white transition-colors duration-300 font-bold rounded-lg shadow-sm border-0 flex items-center justify-center gap-2 ${compact ? 'h-9 text-xs px-2' : 'h-10 text-sm'}`}
       >
         {loading ? (
           <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
         ) : (
-          <ShoppingCart className="w-4 h-4" />
+          <ShoppingCart className={compact ? "w-3.5 h-3.5" : "w-4 h-4"} />
         )}
-        {loading ? "Adding..." : "Add to Cart"}
+        {loading ? (compact ? "" : "Adding...") : (compact ? "Add" : "Add to Cart")}
       </Button>
     </div>
   );
