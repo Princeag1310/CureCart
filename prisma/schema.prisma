@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // -----------------------------------------------------------------------------
@@ -57,6 +58,8 @@ model Medicine {
   image           String?
   category        String?
   subCategory     String?
+  packaging       String?
+  composition     String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

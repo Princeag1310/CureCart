@@ -1,11 +1,17 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const email = "admin@curecart.com";
-  const rawPassword = "adminpassword123";
+  const email = process.argv[2];
+  const rawPassword = process.argv[3];
+
+  if (!email || !rawPassword) {
+    console.error("❌ Please provide an email and password.");
+    console.error("Usage: npx tsx scratch/create-admin-account.ts <your-email> <your-password>");
+    process.exit(1);
+  }
 
   // Check if admin already exists
   const existingUser = await prisma.user.findUnique({ where: { email } });

@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     if (!session || session.user.role !== "ADMIN") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
-    const { name, price, stock, manufacturer, category, requiresPrescription } = body;
+    const { name, price, stock, manufacturer, category, requiresPrescription, packaging, composition } = body;
 
     if (!name || price === undefined || stock === undefined) {
       return NextResponse.json({ error: "Name, price, and stock are required" }, { status: 400 });
@@ -22,6 +22,8 @@ export async function POST(req: NextRequest) {
         stock: parseInt(stock, 10),
         manufacturer,
         category,
+        packaging,
+        composition,
         requiresPrescription: Boolean(requiresPrescription),
       }
     });
@@ -38,7 +40,7 @@ export async function PUT(req: NextRequest) {
     if (!session || session.user.role !== "ADMIN") return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
-    const { id, name, price, stock, manufacturer, category, requiresPrescription } = body;
+    const { id, name, price, stock, manufacturer, category, requiresPrescription, packaging, composition } = body;
 
     if (!id) return NextResponse.json({ error: "Medicine ID is required" }, { status: 400 });
 
@@ -50,6 +52,8 @@ export async function PUT(req: NextRequest) {
         ...(stock !== undefined && { stock: parseInt(stock, 10) }),
         ...(manufacturer !== undefined && { manufacturer }),
         ...(category !== undefined && { category }),
+        ...(packaging !== undefined && { packaging }),
+        ...(composition !== undefined && { composition }),
         ...(requiresPrescription !== undefined && { requiresPrescription: Boolean(requiresPrescription) }),
       }
     });
