@@ -1,8 +1,30 @@
 import { GoogleGenAI } from "@google/genai";
+import { tavily } from "@tavily/core";
 
 export class AIService {
   /**
-   * Given a medicine name, uses Gemini to search and structure medical information.
+   * Helper function to search Tavily and extract clean context text
+   */
+  static async performTavilySearch(query: string, searchDepth: "basic" | "advanced" = "basic"): Promise<string> {
+    const apiKey = process.env.TAVILY_API_KEY || "";
+    if (!apiKey) return "";
+    
+    try {
+      const tvly = tavily({ apiKey });
+      const response = await tvly.search(query, {
+        searchDepth: searchDepth,
+        maxResults: 3
+      });
+      
+      return response.results.map(r => r.content).join("\n\n");
+    } catch (error) {
+      console.error("[Tavily] Search failed:", error);
+      return "";
+    }
+  }
+
+  /**
+   * Given a medicine name, uses Tavily Search + Gemini to structure medical information.
    * Prompts the AI to act as a medical data scraper and return pure JSON.
    */
   static async scrapeMedicineDetails(query: string) {
@@ -14,8 +36,15 @@ export class AIService {
     const ai = new GoogleGenAI({ apiKey });
 
     try {
+      const searchContext = await this.performTavilySearch(`${query} medicine active ingredients price prescription status`, "basic");
+      
       const prompt = `
         You are a medical data scraper. A user has searched for the medicine/drug: "${query}".
+        Here is the live data scraped from the web:
+        ---
+        ${searchContext || "No live data available. Rely on your internal knowledge."}
+        ---
+        
         If this is a valid medicine, return a JSON object with the following structure:
         {
           "name": "Proper name of the medicine",
@@ -155,8 +184,15 @@ export class AIService {
     const ai = new GoogleGenAI({ apiKey });
 
     try {
+      const searchContext = await this.performTavilySearch(`${medicineName} uses side effects interactions warnings`, "advanced");
+
       const prompt = `
         You are a professional medical database API. A user is viewing the medicine: "${medicineName}".
+        Here is the latest medical data retrieved from trusted sources:
+        ---
+        ${searchContext || "No live data available. Rely on your internal knowledge."}
+        ---
+
         Provide comprehensive medical details for this medicine in a strictly formatted JSON object.
         Structure:
         {
