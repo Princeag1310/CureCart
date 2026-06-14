@@ -172,14 +172,14 @@ export function EditProfileForm({ user }: { user: any }) {
           type="button" 
           variant="outline" 
           onClick={() => router.push('/profile')}
-          className="rounded-xl w-full py-4 h-auto text-sm font-bold border-zinc-200 hover:bg-zinc-50 transition-all"
+          className="rounded-xl flex-1 py-4 h-auto text-sm font-bold border-zinc-200 hover:bg-zinc-50 transition-all"
         >
           Cancel
         </Button>
         <Button 
           type="submit" 
           disabled={loading}
-          className="rounded-xl w-full py-4 h-auto text-sm font-bold bg-zinc-900 hover:bg-emerald-600 shadow-sm transition-colors border-0 disabled:opacity-50 text-white"
+          className="rounded-xl flex-1 py-4 h-auto text-sm font-bold bg-zinc-900 hover:bg-emerald-600 shadow-sm transition-colors border-0 disabled:opacity-50 text-white"
         >
           {loading ? 'Saving...' : 'Save Changes'}
         </Button>
