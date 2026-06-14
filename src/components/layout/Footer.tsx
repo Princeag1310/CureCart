@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, HeartPulse } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram, HeartPulse } from "lucide-react";
 
 export function Footer() {
   return (
@@ -25,9 +25,6 @@ export function Footer() {
             <div className="flex items-center gap-4 pt-2">
               <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-emerald-600 hover:border-emerald-500 hover:text-white transition-all">
                 <Facebook className="w-4 h-4" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-emerald-600 hover:border-emerald-500 hover:text-white transition-all">
-                <Twitter className="w-4 h-4" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-emerald-600 hover:border-emerald-500 hover:text-white transition-all">
                 <Instagram className="w-4 h-4" />
