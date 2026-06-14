@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 import { Providers } from "@/components/layout/Providers";
 import { GlobalChatbot } from "@/components/ui/GlobalChatbot";
 import "./globals.css";
@@ -46,7 +47,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Providers>
           <Navbar />
-          {children}
+          <div className="flex-1 flex flex-col pt-16">
+            {children}
+          </div>
+          <Footer />
           <GlobalChatbot />
         </Providers>
       </body>
