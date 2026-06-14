@@ -44,9 +44,9 @@ export default function HealthBotClient({ medicineName }: { medicineName: string
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4 max-h-[400px]">
+      <div className="flex-1 overflow-y-auto mb-4 space-y-3 max-h-[300px] pr-2 scrollbar-thin scrollbar-thumb-gray-200">
         {messages.map((msg, i) => (
-          <div key={i} className={`p-3 rounded-xl text-sm ${msg.role === 'user' ? 'bg-blue-600 text-white ml-8 rounded-tr-sm' : 'bg-gray-100 text-gray-800 mr-8 rounded-tl-sm'}`}>
+          <div key={i} className={`p-3.5 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-emerald-600 text-white ml-8 rounded-tr-sm shadow-sm' : 'bg-white border border-gray-100 text-gray-800 mr-8 rounded-tl-sm shadow-[0_2px_8px_rgb(0,0,0,0.04)]'}`}>
             {msg.role === 'user' ? (
               <div className="whitespace-pre-wrap">{msg.text}</div>
             ) : (
@@ -73,17 +73,17 @@ export default function HealthBotClient({ medicineName }: { medicineName: string
         )}
       </div>
       
-      <div className="mt-auto flex gap-2">
+      <div className="mt-auto flex gap-2 pt-2 border-t border-gray-100">
         <input 
           type="text" 
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
           placeholder={`Ask about ${medicineName}...`}
-          className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500"
+          className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
         />
-        <Button onClick={sendMessage} disabled={loading || !input.trim()} className="bg-blue-600 hover:bg-blue-700">
-          Send
+        <Button onClick={sendMessage} disabled={loading || !input.trim()} className="bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-sm px-5">
+          Ask
         </Button>
       </div>
     </div>
