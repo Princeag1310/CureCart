@@ -100,9 +100,9 @@ export function SearchBar() {
                 <Link 
                   href={`/medicine/${item.id}`}
                   onClick={() => {
-                    setShowSuggestions(false);
-                    setQuery(item.name);
-                  }}
+                  setShowSuggestions(false);
+                  setQuery('');
+                    }}
                   className="flex items-start justify-between px-4 py-3 hover:bg-zinc-50 transition-colors w-full"
                 >
                   <div className="flex flex-col flex-1 pr-4">
