@@ -16,7 +16,7 @@ cd CureCart
 ```
 
 ### 2. Install Dependencies
-Make sure you have Node.js installed, then run:
+Make sure you have Node.js 20.19 or newer installed, then run:
 ```bash
 npm install
 ```
@@ -28,6 +28,19 @@ cp .env.example .env
 ```
 Open `.env` and fill in the required keys. (If you're just working on UI components, you might not need all API keys to be fully functional, but a local database is required).
 
+#### Windows setup notes
+If you are using Windows, PowerShell works well for the project commands. Use these equivalents where Unix-style commands appear:
+```powershell
+Copy-Item .env.example .env
+```
+
+Windows-specific quirks to watch for:
+- Install Node.js 20.19 or newer. Several locked dependencies require at least this patch level on the Node 20 line.
+- Keep the repo in a short path without special characters or spaces, for example `C:\dev\CureCart`, to avoid native package and Prisma path issues.
+- Use PowerShell or Git Bash consistently. If script execution is blocked in PowerShell, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once from PowerShell.
+- Prisma uses PostgreSQL through `DATABASE_URL`. If you run PostgreSQL locally on Windows, update `.env` with your local connection string. If Prisma asks for `DIRECT_URL`, set it to the same value as `DATABASE_URL` for local development.
+- If native dependency installation fails on Windows, try `npm install` again from a fresh terminal. Use WSL 2 as the closest Linux-like environment if native package issues continue.
+
 ### 4. Setup the Database (Prisma)
 Initialize the Prisma schema and sync it with your local database:
 ```bash
@@ -36,7 +49,7 @@ npx prisma db push
 ```
 *(Optional)* If you want to seed the database with initial data:
 ```bash
-npm run prisma:seed
+npx prisma db seed
 ```
 
 ### 5. Run the Development Server
