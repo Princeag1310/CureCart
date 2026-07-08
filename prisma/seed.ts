@@ -15,6 +15,12 @@ async function seed() {
   console.log('🌱 Starting Database Seeding from 1mg CSV files...');
 
   try {
+    if (!fs.existsSync(CSV_DIR)) {
+      console.log(`⚠️ CSV directory not found at ${CSV_DIR}. Seeding with dummy data instead...`);
+      await seedDummyData();
+      return;
+    }
+
     const files = fs.readdirSync(CSV_DIR).filter(f => f.endsWith('.csv'));
     let totalInsertedCount = 0;
 
@@ -62,7 +68,6 @@ async function seed() {
                 price: price,
                 requiresPrescription,
                 manufacturer: company,
-                description: description,
                 category: category,
                 stock: 100, // Default stock
                 // Image intentionally omitted to avoid copyright issues, UI will render a placeholder
@@ -94,6 +99,24 @@ async function seed() {
   } finally {
     await prisma.$disconnect();
   }
+}
+
+async function seedDummyData() {
+  const dummyMedicines = [
+    { name: "Paracetamol 500mg", price: 30, requiresPrescription: false, manufacturer: "Generic", category: "OTC Products", stock: 100 },
+    { name: "Amoxicillin 250mg", price: 120, requiresPrescription: true, manufacturer: "PharmaCorp", category: "Prescription Drugs", stock: 50 },
+    { name: "Cetirizine 10mg", price: 45, requiresPrescription: false, manufacturer: "AllergyMeds", category: "OTC Products", stock: 200 }
+  ];
+
+  for (const med of dummyMedicines) {
+    await prisma.medicine.upsert({
+      where: { name: med.name },
+      update: {},
+      create: med
+    });
+  }
+  console.log(`✅ Inserted ${dummyMedicines.length} dummy medicines.`);
+  await prisma.$disconnect();
 }
 
 seed();

@@ -51,16 +51,16 @@ export default async function Home({
   const categoriesList = ['All', 'Prescription Drugs', 'OTC Products', 'Protein Supplements', 'Hair Care', 'Skin Care'];
 
   return (
-    <main className="min-h-screen bg-white flex flex-col items-center pt-20">
+    <main className="min-h-screen bg-white dark:bg-zinc-950 flex flex-col items-center pt-20">
       
       {/* Minimal Hero Section */}
       {!query && !category && !letter && (
-        <section className="bg-white border-b border-gray-100">
+        <section className="bg-white dark:bg-zinc-950 border-b border-gray-100 dark:border-zinc-800">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 text-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-zinc-900 tracking-tight leading-tight mb-3">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight leading-tight mb-3">
               Modern healthcare. <span className="text-emerald-600">Delivered instantly.</span>
             </h1>
-            <p className="text-sm text-zinc-500 font-medium mb-6">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium mb-6">
               Search over 10,000+ verified medicines. AI-powered prescription checks and 10-minute delivery to your door.
             </p>
             
@@ -76,7 +76,7 @@ export default async function Home({
         {/* Minimalist Sidebar */}
         <aside className="w-full md:w-56 flex-shrink-0">
           <div className="sticky top-28">
-            <h3 className="text-xs font-black text-zinc-400 uppercase tracking-widest mb-4 px-3">Browse Categories</h3>
+            <h3 className="text-xs font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-4 px-3">Browse Categories</h3>
             <ul className="space-y-1">
               {categoriesList.map(catName => {
                 const isActive = catName === 'All' ? !category : category === catName;
@@ -86,8 +86,8 @@ export default async function Home({
                       href={buildUrl({ category: catName === 'All' ? null : catName, page: 1, letter: null })} 
                       className={`block px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
                         isActive 
-                          ? 'bg-emerald-50 text-emerald-700' 
-                          : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'
+                          ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400' 
+                          : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-100'
                       }`}
                     >
                       {catName}
@@ -105,10 +105,10 @@ export default async function Home({
           {/* Header Controls */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
-              <h2 className="text-xl font-black text-zinc-900">
+              <h2 className="text-xl font-black text-zinc-900 dark:text-white">
                 {query ? `Search results for "${query}"` : category ? category : 'All Products'}
               </h2>
-              <p className="text-xs text-zinc-500 font-medium mt-1">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-1">
                 Showing {totalCount > 0 ? ((currentPage - 1) * limit) + 1 : 0}-{Math.min(currentPage * limit, totalCount)} of {totalCount} items
               </p>
             </div>
@@ -119,14 +119,14 @@ export default async function Home({
 
           {/* Alphabet Filter - Clean Pills */}
           {!query && (
-            <div className="mb-8 w-full overflow-x-auto pb-2 scrollbar-hide border-b border-gray-100">
+            <div className="mb-8 w-full overflow-x-auto pb-2 scrollbar-hide border-b border-gray-100 dark:border-zinc-800">
               <div className="flex gap-2 min-w-max pb-4">
                 <Link 
                   href={buildUrl({ letter: null, page: 1 })}
                   className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors border ${
                     !letter 
-                      ? 'bg-zinc-900 border-zinc-900 text-white' 
-                      : 'bg-white border-gray-200 text-zinc-600 hover:border-zinc-400'
+                      ? 'bg-zinc-900 dark:bg-white border-zinc-900 dark:border-white text-white dark:text-zinc-900' 
+                      : 'bg-white dark:bg-transparent border-gray-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600'
                   }`}
                 >
                   All
@@ -137,8 +137,8 @@ export default async function Home({
                     href={buildUrl({ letter: char, page: 1 })}
                     className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors border ${
                       letter === char 
-                        ? 'bg-zinc-900 border-zinc-900 text-white' 
-                        : 'bg-white border-gray-200 text-zinc-600 hover:border-zinc-400'
+                        ? 'bg-zinc-900 dark:bg-white border-zinc-900 dark:border-white text-white dark:text-zinc-900' 
+                        : 'bg-white dark:bg-transparent border-gray-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600'
                     }`}
                   >
                     {char}
@@ -155,8 +155,8 @@ export default async function Home({
             <>
               {medicines.length === 0 ? (
                 <div className="text-center py-20">
-                  <p className="text-xl font-bold text-zinc-800">No products found</p>
-                  <p className="text-zinc-500 mt-2">Try adjusting your category or search query.</p>
+                  <p className="text-xl font-bold text-zinc-800 dark:text-zinc-200">No products found</p>
+                  <p className="text-zinc-500 dark:text-zinc-400 mt-2">Try adjusting your category or search query.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -170,7 +170,7 @@ export default async function Home({
               {totalPages > 1 && (
                 <div className="mt-16 flex justify-center items-center gap-1.5">
                   {currentPage > 1 && (
-                    <Link href={buildUrl({ page: currentPage - 1 })} className="px-4 py-2 text-sm font-bold text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors">
+                    <Link href={buildUrl({ page: currentPage - 1 })} className="px-4 py-2 text-sm font-bold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">
                       ←
                     </Link>
                   )}
@@ -181,13 +181,13 @@ export default async function Home({
                       const showEllipsis = index > 0 && pageNum - array[index - 1] > 1;
                       return (
                         <div key={pageNum} className="flex gap-1.5 items-center">
-                          {showEllipsis && <span className="px-2 text-zinc-400 font-bold">...</span>}
+                          {showEllipsis && <span className="px-2 text-zinc-400 dark:text-zinc-600 font-bold">...</span>}
                           <Link 
                             href={buildUrl({ page: pageNum })}
                             className={`min-w-[36px] h-9 flex items-center justify-center font-bold text-sm rounded-lg transition-colors ${
                               currentPage === pageNum 
-                                ? 'bg-zinc-900 text-white' 
-                                : 'text-zinc-600 hover:bg-zinc-100'
+                                ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900' 
+                                : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                             }`}
                           >
                             {pageNum}
@@ -198,7 +198,7 @@ export default async function Home({
                   }
 
                   {currentPage < totalPages && (
-                    <Link href={buildUrl({ page: currentPage + 1 })} className="px-4 py-2 text-sm font-bold text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors">
+                    <Link href={buildUrl({ page: currentPage + 1 })} className="px-4 py-2 text-sm font-bold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">
                       →
                     </Link>
                   )}

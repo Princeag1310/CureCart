@@ -76,7 +76,7 @@ export function GlobalChatbot() {
 
       {/* Chat Window Overlay */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-[380px] h-[600px] max-h-[85vh] bg-white rounded-[2rem] shadow-[0_8px_40px_rgb(0,0,0,0.12)] flex flex-col z-50 overflow-hidden animate-in fade-in slide-in-from-bottom-10 duration-500 border border-emerald-100/50">
+        <div className="fixed bottom-6 right-6 w-[380px] h-[600px] max-h-[85vh] bg-white dark:bg-zinc-950 rounded-[2rem] shadow-[0_8px_40px_rgb(0,0,0,0.12)] flex flex-col z-50 overflow-hidden animate-in fade-in slide-in-from-bottom-10 duration-500 border border-emerald-100/50 dark:border-emerald-900/30">
           
           {/* Header */}
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-6 text-white flex justify-between items-center shrink-0 relative overflow-hidden">
@@ -99,23 +99,23 @@ export function GlobalChatbot() {
           </div>
 
           {/* Chat History */}
-          <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-gray-50/80 scrollbar-thin scrollbar-thumb-gray-200">
+          <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-gray-50/80 dark:bg-zinc-900/50 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-zinc-800">
             {messages.map((msg, i) => (
               <div key={i} className={`max-w-[85%] p-4 text-sm leading-relaxed ${
                 msg.role === 'user' 
                   ? 'bg-emerald-600 text-white ml-auto rounded-2xl rounded-tr-sm shadow-sm' 
-                  : 'bg-white text-gray-800 mr-auto rounded-2xl rounded-tl-sm shadow-sm border border-gray-100'
+                  : 'bg-white dark:bg-zinc-800 text-gray-800 dark:text-zinc-200 mr-auto rounded-2xl rounded-tl-sm shadow-sm border border-gray-100 dark:border-zinc-700'
               }`}>
                 {msg.role === 'user' ? (
                   <div className="whitespace-pre-wrap font-medium">{msg.text}</div>
                 ) : (
-                  <div className="text-gray-800">
+                  <div className="text-gray-800 dark:text-zinc-200">
                     <ReactMarkdown
                       components={{
                         ul: ({node, ...props}) => <ul className="list-disc pl-5 my-2 space-y-1" {...props} />,
                         ol: ({node, ...props}) => <ol className="list-decimal pl-5 my-2 space-y-1" {...props} />,
-                        li: ({node, ...props}) => <li className="text-gray-800" {...props} />,
-                        strong: ({node, ...props}) => <strong className="font-bold text-gray-900" {...props} />,
+                        li: ({node, ...props}) => <li className="text-gray-800 dark:text-zinc-200" {...props} />,
+                        strong: ({node, ...props}) => <strong className="font-bold text-gray-900 dark:text-white" {...props} />,
                         p: ({node, ...props}) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />
                       }}
                     >
@@ -126,7 +126,7 @@ export function GlobalChatbot() {
               </div>
             ))}
             {loading && (
-              <div className="bg-white text-gray-500 p-4 rounded-2xl rounded-tl-sm mr-auto max-w-[85%] shadow-sm border border-gray-100 flex items-center gap-3">
+              <div className="bg-white dark:bg-zinc-800 text-gray-500 dark:text-zinc-400 p-4 rounded-2xl rounded-tl-sm mr-auto max-w-[85%] shadow-sm border border-gray-100 dark:border-zinc-700 flex items-center gap-3">
                 <div className="flex gap-1">
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce"></span>
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
@@ -138,15 +138,15 @@ export function GlobalChatbot() {
           </div>
           
           {/* Input Area */}
-          <div className="p-4 bg-white border-t border-gray-100 shrink-0">
-            <div className="flex items-center gap-3 bg-gray-50/50 rounded-2xl px-4 py-2 border border-gray-200 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
+          <div className="p-4 bg-white dark:bg-zinc-950 border-t border-gray-100 dark:border-zinc-800 shrink-0">
+            <div className="flex items-center gap-3 bg-gray-50/50 dark:bg-zinc-900/50 rounded-2xl px-4 py-2 border border-gray-200 dark:border-zinc-700 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
               <input 
                 type="text" 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
                 placeholder="Ask a medical question..."
-                className="flex-1 bg-transparent border-0 py-2.5 text-sm focus:outline-none placeholder:text-gray-400 font-medium"
+                className="flex-1 bg-transparent border-0 py-2.5 text-sm focus:outline-none placeholder:text-gray-400 dark:text-zinc-100 font-medium"
               />
               <button 
                 onClick={sendMessage} 
@@ -156,7 +156,7 @@ export function GlobalChatbot() {
                 <Send className="w-4 h-4 ml-0.5" />
               </button>
             </div>
-            <p className="text-center text-[10px] font-bold text-gray-300 mt-3 uppercase tracking-widest">
+            <p className="text-center text-[10px] font-bold text-gray-300 dark:text-zinc-700 mt-3 uppercase tracking-widest">
               Powered by CureCart AI
             </p>
           </div>
