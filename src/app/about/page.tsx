@@ -7,10 +7,10 @@ export default function AboutPage() {
       <section className="px-6 pb-20">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight">
-            Revolutionizing <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Digital Pharmacy</span>
+            Redefining <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Digital Pharmacy Care</span>
           </h1>
           <p className="text-lg text-gray-600 leading-relaxed font-medium max-w-2xl mx-auto">
-            CureCart isn't just an online pharmacy. We are an AI-driven healthcare platform designed to verify prescriptions instantly, flag adverse drug interactions, and deliver your medications with unmatched speed and safety.
+            CureCart is more than an online pharmacy — it's an AI-driven healthcare platform built to verify prescriptions instantly, flag adverse drug interactions, and deliver your medications with uncompromising speed and safety.
           </p>
         </div>
       </section>
@@ -20,7 +20,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-3xl font-black text-gray-900 tracking-tight">Why Choose CureCart?</h2>
-            <p className="text-gray-500 font-medium">Built from the ground up for safety, speed, and intelligence.</p>
+            <p className="text-gray-500 font-medium">Engineered from the ground up for safety, speed, and intelligence.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -30,7 +30,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">AI-Powered Safety</h3>
               <p className="text-gray-600 text-sm leading-relaxed font-medium">
-                Our global health assistant uses verified FDA and WHO data to instantly analyze your symptoms and cross-check drug interactions.
+                Our AI health assistant draws on verified FDA and WHO data to instantly analyze symptoms and cross-check for drug interactions, keeping every order safe by design.
               </p>
             </div>
 
@@ -40,7 +40,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Verified Prescriptions</h3>
               <p className="text-gray-600 text-sm leading-relaxed font-medium">
-                Upload your prescription and our intelligent OCR engine will verify the doctor's signature and medicine details in milliseconds.
+                Upload your prescription and our intelligent OCR engine verifies the doctor's signature and medication details in milliseconds — no waiting, no guesswork.
               </p>
             </div>
 
@@ -48,9 +48,9 @@ export default function AboutPage() {
               <div className="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-6">
                 <Truck className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Lightning Delivery</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Lightning-Fast Delivery</h3>
               <p className="text-gray-600 text-sm leading-relaxed font-medium">
-                We utilize a hyper-local fulfillment network to get your essential medications to your doorstep in as little as 2 hours.
+                Our hyper-local fulfillment network gets essential medications to your doorstep in as little as two hours, wherever you are.
               </p>
             </div>
           </div>
@@ -67,7 +67,7 @@ export default function AboutPage() {
             <div className="max-w-xl relative z-10">
               <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-6">Building the future of digital health.</h2>
               <p className="text-zinc-400 font-medium leading-relaxed">
-                We believe that access to safe, verified medication is a fundamental right. CureCart is built by a team of doctors, engineers, and AI researchers dedicated to making pharmacy transparent and intelligent.
+                We believe access to safe, verified medication is a fundamental right. CureCart is built by a team of doctors, engineers, and AI researchers committed to making pharmacy care transparent, intelligent, and accessible to everyone.
               </p>
             </div>
 
