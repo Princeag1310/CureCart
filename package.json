@@ -1,6 +1,7 @@
 {
   "name": "cure-cart",
   "version": "0.1.0",
+  "author": "Prince Agrawal",
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
