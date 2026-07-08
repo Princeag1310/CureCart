@@ -20,13 +20,12 @@ export default async function Home({
   const query = typeof resolvedParams.q === 'string' ? resolvedParams.q : null;
   const letter = typeof resolvedParams.letter === 'string' ? resolvedParams.letter : null;
   const sort = typeof resolvedParams.sort === 'string' ? resolvedParams.sort : null;
-  const limit = 20;
+  const limit = 24;
 
   const currentPage = page;
 
   const result = await MedicineService.searchMedicines(query || undefined, page, category || undefined, sort || undefined, letter || undefined);
-  const { data: medicines, totalCount } = result;
-  const totalPages = Math.ceil(totalCount / limit);
+  const { data: medicines, totalCount, totalPages } = result;
 
   // If no medicines found for a direct search query, we show the AI Fallback
   const showFallback = query && medicines.length === 0;
