@@ -1,4 +1,9 @@
+<p align="center">
+  <img src="./public/banner.png" alt="CureCart — AI-Powered Digital Pharmacy Platform" width="100%" />
+</p>
+
 # CureCart 🏥✨
+
 **An AI-Powered Digital Pharmacy Platform**
 
 CureCart is a next-generation healthcare e-commerce platform built with modern web technologies and Generative AI. It seamlessly integrates a robust digital pharmacy with intelligent, real-time AI assistance to provide users with verified medical data, instant prescription processing, and personalized health guidance.
@@ -47,18 +52,22 @@ CureCart is a next-generation healthcare e-commerce platform built with modern w
 Follow these steps to run the project locally.
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/Princeag1310/CureCart.git
 cd CureCart
 ```
 
 ### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Setup Environment Variables
+
 Create a `.env` file in the root directory and add the following keys:
+
 ```env
 # Database connection string
 DATABASE_URL="postgresql://user:password@localhost:5432/curecart"
@@ -75,13 +84,16 @@ NEXTAUTH_URL="http://localhost:3000"
 ```
 
 ### 4. Setup the Database
+
 Initialize Prisma and push the schema to your database:
+
 ```bash
 npx prisma generate
 npx prisma db push
 ```
 
 ### 5. Run the Development Server
+
 ```bash
 npm run dev
 ```
@@ -92,8 +104,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## 📈 Deployment
 
-This application is optimized for deployment on **Vercel**. 
+This application is optimized for deployment on **Vercel**.
+
 Ensure all environment variables are correctly configured in your Vercel project settings, and that the build command is set to:
+
 ```bash
 prisma generate && next build
 ```
