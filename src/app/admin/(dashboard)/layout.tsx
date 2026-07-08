@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/config/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, Package, ShoppingCart, FileText, Settings, Users } from "lucide-react";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
 
 export default async function AdminLayout({
   children,
@@ -28,27 +28,7 @@ export default async function AdminLayout({
           <span className="text-xl font-bold text-white tracking-tight">Admin Portal</span>
         </div>
         
-        <nav className="flex-1 py-6 px-3 space-y-1">
-          <Link href="/admin" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-            <LayoutDashboard className="w-5 h-5 text-slate-400" />
-            <span className="font-medium">Dashboard</span>
-          </Link>
-          
-          <Link href="/admin/inventory" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-            <Package className="w-5 h-5 text-slate-400" />
-            <span className="font-medium">Inventory</span>
-          </Link>
-          
-          <Link href="/admin/orders" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-            <ShoppingCart className="w-5 h-5 text-slate-400" />
-            <span className="font-medium">Orders</span>
-          </Link>
-          
-          <Link href="/admin/prescriptions" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-            <FileText className="w-5 h-5 text-slate-400" />
-            <span className="font-medium">Prescriptions</span>
-          </Link>
-        </nav>
+        <AdminSidebar />
         
         <div className="p-4 border-t border-slate-800">
           <div className="flex items-center gap-3 px-3 py-2 text-sm">
