@@ -67,7 +67,6 @@ export function GlobalChatbot() {
       {!isOpen && (
         <button 
           onClick={() => setIsOpen(true)}
-          aria-label="Open AI assistant"
           className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-tr from-emerald-600 to-teal-500 text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(52,211,153,0.3)] transition-all z-50 hover:scale-110 group"
         >
           <div className="absolute inset-0 rounded-full bg-emerald-400/40 animate-ping opacity-75 group-hover:opacity-0 transition-opacity"></div>
@@ -94,7 +93,7 @@ export function GlobalChatbot() {
                 <p className="text-xs text-emerald-100/90 mt-0.5 font-medium">Verified Medical Sources</p>
               </div>
             </div>
-            <button onClick={handleClose} aria-label="Close AI assistant" className="relative z-10 text-emerald-100 hover:text-white hover:bg-white/20 transition-all p-2 rounded-full">
+            <button onClick={handleClose} className="relative z-10 text-emerald-100 hover:text-white hover:bg-white/20 transition-all p-2 rounded-full">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -152,7 +151,6 @@ export function GlobalChatbot() {
               <button 
                 onClick={sendMessage} 
                 disabled={loading || !input.trim()} 
-                aria-label="Send message to AI assistant"
                 className="w-10 h-10 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center shadow-sm transition-all disabled:opacity-40 disabled:hover:scale-100 flex-shrink-0"
               >
                 <Send className="w-4 h-4 ml-0.5" />
