@@ -70,7 +70,6 @@ export function AddToCartForm({ medicineId, stock, compact = false }: { medicine
           type="button"
           onClick={decrement}
           disabled={quantity <= 1 || loading}
-          aria-label="Decrease quantity"
           className="w-full h-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 disabled:opacity-30 transition-colors"
         >
           <Minus className="w-3.5 h-3.5" />
@@ -82,7 +81,6 @@ export function AddToCartForm({ medicineId, stock, compact = false }: { medicine
           type="button"
           onClick={increment}
           disabled={quantity >= stock || loading}
-          aria-label="Increase quantity"
           className="w-full h-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 disabled:opacity-30 transition-colors"
         >
           <Plus className="w-3.5 h-3.5" />

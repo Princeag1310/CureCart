@@ -226,8 +226,8 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
                   <input type="number" placeholder="0*" className="w-20 p-2 border border-blue-200 rounded text-center mx-auto block" value={addForm.stock} onChange={e => setAddForm({...addForm, stock: e.target.value})} />
                 </td>
                 <td className="px-4 py-4 text-right space-x-2">
-                  <button onClick={handleAddSubmit} aria-label="Save new medicine" className="p-2 text-white bg-green-500 hover:bg-green-600 rounded-md"><Save className="w-4 h-4" /></button>
-                  <button onClick={() => setIsAdding(false)} aria-label="Cancel adding medicine" className="p-2 text-gray-500 bg-gray-200 hover:bg-gray-300 rounded-md"><X className="w-4 h-4" /></button>
+                  <button onClick={handleAddSubmit} className="p-2 text-white bg-green-500 hover:bg-green-600 rounded-md"><Save className="w-4 h-4" /></button>
+                  <button onClick={() => setIsAdding(false)} className="p-2 text-gray-500 bg-gray-200 hover:bg-gray-300 rounded-md"><X className="w-4 h-4" /></button>
                 </td>
               </tr>
             )}
@@ -301,13 +301,13 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
                 <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap">
                   {editingId === med.id ? (
                     <>
-                      <button onClick={handleSaveEdit} aria-label={`Save changes to ${med.name}`} className="p-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors"><Save className="w-4 h-4" /></button>
-                      <button onClick={handleCancelEdit} aria-label={`Cancel editing ${med.name}`} className="p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"><X className="w-4 h-4" /></button>
+                      <button onClick={handleSaveEdit} className="p-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors"><Save className="w-4 h-4" /></button>
+                      <button onClick={handleCancelEdit} className="p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"><X className="w-4 h-4" /></button>
                     </>
                   ) : (
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => handleEditClick(med)} aria-label={`Edit ${med.name}`} className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
-                      <button onClick={() => handleDelete(med.id)} aria-label={`Delete ${med.name}`} className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
+                      <button onClick={() => handleEditClick(med)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
+                      <button onClick={() => handleDelete(med.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   )}
                 </td>

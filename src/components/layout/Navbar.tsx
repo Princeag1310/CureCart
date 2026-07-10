@@ -69,11 +69,11 @@ export function Navbar() {
         {/* Right Actions */}
         <div className="flex items-center gap-5">
           <ThemeToggle />
-          <Link href="/ai-search" aria-label="Open AI search" className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors hidden sm:block">
+          <Link href="/ai-search" className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors hidden sm:block">
             <Search className="w-5 h-5" />
           </Link>
           
-          <Link href="/cart" aria-label={`Open cart with ${cartCount} items`} className="relative text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors group">
+          <Link href="/cart" className="relative text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors group">
             <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
             {cartCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold text-white bg-emerald-600 rounded-full shadow-sm ring-2 ring-white dark:ring-zinc-950">
