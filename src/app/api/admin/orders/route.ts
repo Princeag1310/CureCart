@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/config/auth";
 import { prisma } from "@/config/db";
+import { EmailService } from "@/services/email.service";
 
 export async function PUT(req: NextRequest) {
   try {
@@ -15,8 +16,22 @@ export async function PUT(req: NextRequest) {
 
     const order = await prisma.order.update({
       where: { id },
-      data: { status }
+      data: { status },
+      include: { user: true },
     });
+
+    // Fire-and-forget: notify customer by email on shipment/delivery.
+    // Runs async so it never blocks or fails the admin's response.
+    if (status === "SHIPPED" || status === "DELIVERED") {
+      if (order.user?.email) {
+        EmailService.sendOrderStatusEmail(
+          order.user.email,
+          order.user.name || "Customer",
+          order.id,
+          status
+        ).catch((err) => console.error("Failed to send order status email", err));
+      }
+    }
 
     return NextResponse.json(order);
   } catch (error: any) {
