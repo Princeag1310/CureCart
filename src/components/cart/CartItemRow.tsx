@@ -119,6 +119,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
               type="button"
               onClick={() => handleUpdateQuantity(optimisticQty - 1)}
               disabled={optimisticQty <= 1}
+              aria-label="Decrease quantity"
               className="w-10 h-full flex items-center justify-center text-gray-600 hover:bg-gray-200 disabled:opacity-30 transition-colors cursor-pointer disabled:cursor-not-allowed"
             >
               <Minus className="w-3.5 h-3.5" />
@@ -130,6 +131,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
               type="button"
               onClick={() => handleUpdateQuantity(optimisticQty + 1)}
               disabled={optimisticQty >= item.medicine.stock}
+              aria-label="Increase quantity"
               className="w-10 h-full flex items-center justify-center text-gray-600 hover:bg-gray-200 disabled:opacity-30 transition-colors cursor-pointer disabled:cursor-not-allowed"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -139,6 +141,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
           <button 
             type="button" 
             onClick={handleRemove}
+            aria-label="Remove item"
             className="text-sm font-semibold text-gray-400 hover:text-red-500 flex items-center gap-2 transition-all p-2 -mr-2 rounded-xl hover:bg-red-50 group"
           >
             <Trash2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
