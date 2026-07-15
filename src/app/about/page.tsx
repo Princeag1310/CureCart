@@ -1,4 +1,4 @@
-import { CheckCircle2, ShieldCheck, HeartPulse, Sparkles, Building2, Truck } from "lucide-react";
+import { ShieldCheck, Sparkles, Truck } from "lucide-react";
 
 export default function AboutPage() {
   return (

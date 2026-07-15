@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Edit2, Trash2, Plus, Save, X, Search, Filter } from "lucide-react";
+import { Pen, Trash2, Plus, Save, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }) {
@@ -306,7 +306,7 @@ export function InventoryTable({ initialMedicines }: { initialMedicines: any[] }
                     </>
                   ) : (
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => handleEditClick(med)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
+                      <button onClick={() => handleEditClick(med)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"><Pen className="w-4 h-4" /></button>
                       <button onClick={() => handleDelete(med.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   )}

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/config/db";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Phone, Edit2, ShoppingBag, Shield } from "lucide-react";
+import { MapPin, Phone, Pen, ShoppingBag, Shield } from "lucide-react";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -35,7 +35,7 @@ export default async function ProfilePage() {
               href="/profile/edit"
               className="absolute top-5 right-5 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 transition-all hover:scale-105 border border-white/10"
             >
-              <Edit2 className="w-4 h-4" /> Edit Profile
+              <Pen className="w-4 h-4" /> Edit Profile
             </Link>
           </div>
           <div className="px-8 pb-10 relative">

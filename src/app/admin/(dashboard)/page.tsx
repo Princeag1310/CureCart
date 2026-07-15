@@ -1,5 +1,5 @@
 import { prisma } from "@/config/db";
-import { Package, ShoppingCart, DollarSign, AlertCircle } from "lucide-react";
+import { Package, ShoppingCart, DollarSign, CircleAlert } from "lucide-react";
 import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
@@ -65,7 +65,7 @@ export default async function AdminDashboard() {
         
         <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-start gap-4">
           <div className="p-3 bg-red-100 text-red-600 rounded-lg shrink-0">
-            <AlertCircle className="w-6 h-6" />
+            <CircleAlert className="w-6 h-6" />
           </div>
           <div>
             <p className="text-sm font-medium text-gray-500">Low Stock Items</p>
@@ -122,7 +122,7 @@ export default async function AdminDashboard() {
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
           <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-red-50/50">
             <h2 className="text-lg font-semibold text-red-900 flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-red-600" />
+              <CircleAlert className="w-5 h-5 text-red-600" />
               Low Stock Alerts
             </h2>
             <Link href="/admin/inventory" className="text-sm text-red-600 hover:text-red-700 font-medium">Manage</Link>

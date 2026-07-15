@@ -3,7 +3,7 @@ import { authOptions } from "@/config/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/config/db";
 import Link from "next/link";
-import { MapPin, Phone, Edit2, AlertCircle, ShieldCheck } from "lucide-react";
+import { MapPin, Phone, Pen, CircleAlert, ShieldCheck } from "lucide-react";
 import { PaymentButton } from "./PaymentButton";
 
 export default async function CheckoutPage() {
@@ -71,7 +71,7 @@ export default async function CheckoutPage() {
                   Shipping Details
                 </h2>
                 <Link href="/profile/edit" className="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1.5 transition-colors">
-                  <Edit2 className="w-4 h-4" /> Edit
+                  <Pen className="w-4 h-4" /> Edit
                 </Link>
               </div>
 
@@ -100,7 +100,7 @@ export default async function CheckoutPage() {
               ) : (
                 <div className="bg-red-50 text-red-700 p-8 rounded-2xl border border-red-100 flex flex-col items-center text-center space-y-4">
                   <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center">
-                    <AlertCircle className="w-7 h-7 text-red-500" />
+                    <CircleAlert className="w-7 h-7 text-red-500" />
                   </div>
                   <div>
                     <h3 className="font-black text-red-900">Incomplete Shipping Profile</h3>
