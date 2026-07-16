@@ -49,7 +49,7 @@ export default async function MedicineDetailPage({ params }: { params: Promise<{
             {medicine.image ? (
               <Image 
                 src={medicine.image} 
-                alt={medicine.name} 
+                alt={`Picture of ${medicine.name} is currently unavaliable`} 
                 fill 
                 className="object-contain p-4 group-hover:scale-105 transition-transform duration-500 ease-out" 
               />
