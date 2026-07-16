@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MedicineCard } from "./MedicineCard";
-import { Bot, AlertCircle } from "lucide-react";
+import { Bot, CircleAlert } from "lucide-react";
 
 export function AIFallbackSearch({ query }: { query: string }) {
   const [loading, setLoading] = useState(true);
@@ -60,7 +60,7 @@ export function AIFallbackSearch({ query }: { query: string }) {
     return (
       <div className="flex flex-col items-center justify-center py-20 bg-gradient-to-br from-red-50 to-orange-50 rounded-3xl border border-red-100/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-          <AlertCircle className="h-10 w-10 text-red-500" />
+          <CircleAlert className="h-10 w-10 text-red-500" />
         </div>
         <h3 className="text-2xl font-black text-gray-900 mb-3">Search Failed</h3>
         <p className="text-red-600 font-medium max-w-md mx-auto text-center leading-relaxed">

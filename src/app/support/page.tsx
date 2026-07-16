@@ -1,4 +1,4 @@
-import { Mail, Phone, MessageCircle, FileQuestion, ChevronRight, HelpCircle } from "lucide-react";
+import { Mail, Phone, MessageCircle, FileQuestion, ChevronRight, CircleHelp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function SupportPage() {
@@ -27,7 +27,7 @@ export default function SupportPage() {
       <section className="px-6 pb-16">
         <div className="max-w-3xl mx-auto text-center space-y-4">
           <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <HelpCircle className="w-8 h-8" />
+            <CircleHelp className="w-8 h-8" />
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
             How can we help you?

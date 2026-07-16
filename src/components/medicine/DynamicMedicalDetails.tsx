@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircle, Activity, Info, AlertTriangle, Sparkles } from "lucide-react";
+import { CircleAlert, Activity, Info, TriangleAlert, Sparkles } from "lucide-react";
 
 interface MedicalDetails {
   uses?: string[];
@@ -38,7 +38,7 @@ export function DynamicMedicalDetails({ medicineId, medicineName }: { medicineId
     return (
       <div className="mt-8 bg-red-50 p-5 rounded-2xl text-red-600 text-sm font-medium flex items-center gap-3 border border-red-100">
         <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-          <AlertCircle className="w-5 h-5 text-red-500" />
+          <CircleAlert className="w-5 h-5 text-red-500" />
         </div>
         Failed to load medical details. Please try again later.
       </div>
@@ -126,7 +126,7 @@ export function DynamicMedicalDetails({ medicineId, medicineName }: { medicineId
             <div className="bg-gradient-to-br from-red-50/80 to-red-50/30 p-8 rounded-3xl border border-red-100/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
               <h3 className="text-base font-black text-gray-900 flex items-center gap-3 mb-4">
                 <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center">
-                  <AlertTriangle className="w-5 h-5 text-red-600" />
+                  <TriangleAlert className="w-5 h-5 text-red-600" />
                 </div>
                 Warnings
               </h3>
@@ -145,7 +145,7 @@ export function DynamicMedicalDetails({ medicineId, medicineName }: { medicineId
             <div className="bg-gradient-to-br from-purple-50/80 to-purple-50/30 p-8 rounded-3xl border border-purple-100/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
               <h3 className="text-base font-black text-gray-900 flex items-center gap-3 mb-4">
                 <div className="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center">
-                  <AlertCircle className="w-5 h-5 text-purple-600" />
+                  <CircleAlert className="w-5 h-5 text-purple-600" />
                 </div>
                 Interactions
               </h3>

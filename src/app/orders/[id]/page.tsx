@@ -3,7 +3,7 @@ import { authOptions } from "@/config/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/config/db";
 import Link from "next/link";
-import { CheckCircle2, Package, MapPin, Phone } from "lucide-react";
+import { CircleCheck, Package, MapPin, Phone } from "lucide-react";
 
 export default async function OrderConfirmationPage({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
@@ -39,7 +39,7 @@ export default async function OrderConfirmationPage({ params }: { params: { id: 
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 to-blue-50/30"></div>
           <div className="relative z-10">
             <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-emerald-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg shadow-emerald-100">
-              <CheckCircle2 className="w-12 h-12 text-emerald-500" />
+              <CircleCheck className="w-12 h-12 text-emerald-500" />
             </div>
             <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-3">Order Confirmed!</h1>
             <p className="text-gray-500 font-medium mb-8 max-w-sm mx-auto">Thank you for your purchase. Your order has been successfully placed and is being processed.</p>
