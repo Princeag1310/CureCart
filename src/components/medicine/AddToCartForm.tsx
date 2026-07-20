@@ -57,7 +57,7 @@ export function AddToCartForm({ medicineId, stock, compact = false }: { medicine
 
   if (stock === 0) {
     return (
-      <div className="w-full text-center py-4 px-6 bg-red-50 text-red-600 rounded-xl font-bold border border-red-100 text-sm">
+      <div className="w-full text-center py-4 px-6 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 rounded-xl font-bold border border-red-100 dark:border-red-900/40 text-sm">
         Out of Stock
       </div>
     );
@@ -65,23 +65,23 @@ export function AddToCartForm({ medicineId, stock, compact = false }: { medicine
 
   return (
     <div className={`flex w-full gap-2 ${compact ? 'flex-row' : 'flex-col sm:flex-row'}`}>
-      <div className={`flex items-center justify-between bg-gray-50 rounded-lg overflow-hidden shrink-0 border border-gray-200 ${compact ? 'h-9 w-24' : 'h-10 w-28'}`}>
+      <div className={`flex items-center justify-between bg-gray-50 dark:bg-zinc-900 rounded-lg overflow-hidden shrink-0 border border-gray-200 dark:border-zinc-700 ${compact ? 'h-9 w-24' : 'h-10 w-28'}`}>
         <button 
           type="button"
           onClick={decrement}
           disabled={quantity <= 1 || loading}
-          className="w-full h-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 disabled:opacity-30 transition-colors"
+          className="w-full h-full flex items-center justify-center text-gray-500 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-zinc-100 disabled:opacity-30 transition-colors"
         >
           <Minus className="w-3.5 h-3.5" />
         </button>
-        <div className="w-full h-full flex items-center justify-center font-bold text-sm text-gray-900 bg-white">
+        <div className="w-full h-full flex items-center justify-center font-bold text-sm text-gray-900 dark:text-zinc-100 bg-white dark:bg-zinc-950">
           {quantity}
         </div>
         <button 
           type="button"
           onClick={increment}
           disabled={quantity >= stock || loading}
-          className="w-full h-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 disabled:opacity-30 transition-colors"
+          className="w-full h-full flex items-center justify-center text-gray-500 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-zinc-100 disabled:opacity-30 transition-colors"
         >
           <Plus className="w-3.5 h-3.5" />
         </button>
