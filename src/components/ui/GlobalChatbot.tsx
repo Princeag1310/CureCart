@@ -132,7 +132,7 @@ export function GlobalChatbot() {
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
                 </div>
-                <span className="text-xs font-medium text-emerald-600">Typing...</span>
+                <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Typing...</span>
               </div>
             )}
           </div>
