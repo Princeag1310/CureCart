@@ -5,7 +5,7 @@ import { AddToCartForm } from './AddToCartForm';
 export interface MedicineProps {
   id: string;
   name: string;
-  description: string | null;
+  
   manufacturer: string | null;
   price: number;
   requiresPrescription: boolean;

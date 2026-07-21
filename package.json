@@ -7,10 +7,11 @@
     "dev": "next dev --webpack",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "cron": "npx tsx src/cron/refillJob.ts",
     "migrate:images": "npx tsx src/scripts/migrate-images.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "type-check": "tsc --noEmit"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -64,3 +65,4 @@
     "typescript": "^5"
   }
 }
+
