@@ -87,13 +87,13 @@ export default async function MedicineDetailPage({ params }: { params: Promise<{
                 Prescription Required
               </span>
             )}
-            <h1 className="text-2xl md:text-3xl font-black text-zinc-900 mb-2 tracking-tight">{medicine.name}</h1>
-            <p className="text-sm text-zinc-500 font-medium">By {medicine.manufacturer || "Unknown Manufacturer"}</p>
+            <h1 className="text-2xl md:text-3xl font-black text-zinc-400 mb-2 tracking-tight">{medicine.name}</h1>
+            <p className="text-sm text-zinc-300 font-medium">By {medicine.manufacturer || "Unknown Manufacturer"}</p>
           </div>
 
           <div className="flex items-baseline gap-3 mb-8">
-            <p className="text-3xl font-black text-zinc-900 tracking-tighter">MRP ₹{medicine.price.toFixed(2)}</p>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Inclusive of all taxes</p>
+            <p className="text-3xl font-black text-zinc-300  tracking-tighter">MRP ₹{medicine.price.toFixed(2)}</p>
+            <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Inclusive of all taxes</p>
           </div>
           
           <div className="bg-white rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 mb-10">
@@ -114,7 +114,7 @@ export default async function MedicineDetailPage({ params }: { params: Promise<{
             if (packaging || composition) {
               return (
                 <div className="mb-12">
-                  <h3 className="text-xl font-bold text-zinc-900 mb-6 flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-zinc-300 mb-6 flex items-center gap-2">
                     Key Information
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
