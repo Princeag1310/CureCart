@@ -8,11 +8,14 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
 
-  // useEffect only runs on the client, so now we can safely show the UI
+  // useEffect only runs on the client, so now we can safely show the UI.
+  // This is the standard hydration-safe pattern for next-themes: `mounted`
+  // cannot be computed during render since the server has no theme info.
+ 
   useEffect(() => {
+     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
-
   if (!mounted) {
     return <div className="w-9 h-9 rounded-full bg-zinc-100 dark:bg-zinc-800 animate-pulse"></div>;
   }

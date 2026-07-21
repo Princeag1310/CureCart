@@ -40,7 +40,7 @@ async function processBatch(rows: any[]) {
   const promises = rows.map(async (row) => {
     try {
       const name = row['Name'];
-      let imageUrl = row['Image_URL'];
+      const imageUrl = row['Image_URL'];
 
       if (!name || !imageUrl) return;
 

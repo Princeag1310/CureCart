@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Minus, Plus, Trash2 } from "lucide-react";
@@ -22,15 +22,18 @@ interface CartItemRowProps {
 
 export function CartItemRow({ item }: CartItemRowProps) {
   const router = useRouter();
-  const [isRemoving, setIsRemoving] = useState(false);
+const [isRemoving, setIsRemoving] = useState(false);
   const [optimisticQty, setOptimisticQty] = useState(item.quantity);
+  const [prevServerQty, setPrevServerQty] = useState(item.quantity);
   const syncTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Keep local state in sync if server state updates externally
-  useEffect(() => {
+  // Keep local state in sync if server state updates externally.
+  // Adjusting state during render (rather than in an effect) avoids an
+  // extra render pass — see https://react.dev/learn/you-might-not-need-an-effect
+  if (item.quantity !== prevServerQty) {
+    setPrevServerQty(item.quantity);
     setOptimisticQty(item.quantity);
-  }, [item.quantity]);
-
+  }
   const handleUpdateQuantity = (newQuantity: number) => {
     if (newQuantity <= 0) return;
     if (newQuantity > item.medicine.stock) {

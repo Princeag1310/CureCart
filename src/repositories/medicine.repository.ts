@@ -1,5 +1,6 @@
 import { prisma } from '../config/db';
-
+import { Medicine } from '@prisma/client';
+import Fuse from 'fuse.js';
 export class MedicineRepository {
   /**
    * Fetches medicines, optionally filtering by a search term, category, or starting letter.
@@ -74,7 +75,7 @@ export class MedicineRepository {
     });
 
     // 2. In-Memory Fuzzy Ranking using Fuse.js
-    const Fuse = require('fuse.js');
+    
     const fuse = new Fuse(candidates, {
       keys: [
         { name: 'name', weight: 3 }, // Prioritize name matches heavily
@@ -90,7 +91,7 @@ export class MedicineRepository {
     // We use a slight hack to force exact phrase matching to float to top in Fuse
     const searchResults = fuse.search(`'${searchTerm} | ${searchTerm.replace(/\s+/g, '-')}`);
     
-    let sortedMedicines = searchResults.map((result: any) => result.item);
+    let sortedMedicines: Medicine[] = searchResults.map((result) => result.item);
 
     // If Fuse returned nothing (e.g. no fuzzy match met threshold), fallback to raw candidates
     if (sortedMedicines.length === 0 && candidates.length > 0) {
@@ -99,7 +100,7 @@ export class MedicineRepository {
 
     // Apply explicit sorting if user requested it, overriding relevance
     if (sort) {
-      sortedMedicines.sort((a: any, b: any) => {
+      sortedMedicines.sort((a: Medicine, b: Medicine) => {
         if (sort === 'name-asc') return a.name.localeCompare(b.name);
         if (sort === 'name-desc') return b.name.localeCompare(a.name);
         if (sort === 'price-asc') return a.price - b.price;

@@ -65,7 +65,7 @@ export default async function Home({
             
             {/* Main Search Bar */}
             <div className="max-w-xl mx-auto px-4">
-              <SearchBar initialQuery="" />
+              <SearchBar/>
             </div>
           </div>
         </section>
